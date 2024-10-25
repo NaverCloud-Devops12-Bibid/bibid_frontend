@@ -75,7 +75,7 @@ function SellerAuctionScreen({
     }
   };
 
-  const imagePath = 'C:/Users/BIT/Desktop/최종 - 프론트/public/images/bid.gif';
+  const imagePath = 'C:/Users/bitcamp/Desktop/bibid_front/public/images/bid.gif';
 
   const displayBidWithImageOnOBS = (bidAmount, bidderNickname, imagePath) => {
     if (isObsConnected) {
