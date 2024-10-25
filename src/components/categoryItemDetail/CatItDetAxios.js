@@ -11,7 +11,7 @@ function CatItDetAxios({ setAuctionItem, setAuctionBidInfo, setSeller , setBiddi
   // console.log("auctionNumber"+auctionNumber);
 
   useEffect(() => {
-    axios.get(`http://localhost:8080/auctionDetail/api/category-item-detail/${auctionNumber}`)
+    axios.get(`http://localhost:8080/auctionDetail/category-item-detail/${auctionNumber}`)
       .then(response => {
         // console.log(response);
         const { auctionItem, auctionBidInfo, seller, biddingMember, infoExtension, sellerDetailInfo, auctionImages } = response.data.item; // 응답에서 각각의 필드를 추출
