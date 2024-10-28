@@ -1,10 +1,10 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {
     findIdByEmail,
-    findMember,
-    join,
+    findMember, getTokenAndType, googleJwtToken,
+    join, kakaoJwtToken,
     login,
-    logout, modifyPasswd,
+    logout, modifyPasswd, naverJwtToken,
     verificationCodeCheck
 } from '../../apis/etc2_memberapis/memberApis';
 
@@ -18,7 +18,9 @@ const memberSlice = createSlice({
         verificationCode: '',
         token: '',
         keepLogin: false,
-        memberPw: ''
+        memberPw: '',
+        oauthType: '',
+        isLogin: false,
     },
     reducers: {
 
@@ -40,7 +42,8 @@ const memberSlice = createSlice({
                 memberIndex: action.payload.memberIndex,
                 memberId: action.payload.memberId,
                 nickname: action.payload.nickname,
-                token: action.payload.token
+                token: action.payload.token,
+                isLogin: true
             };
         });
         builder.addCase(login.rejected, (state, action) => {
@@ -56,29 +59,19 @@ const memberSlice = createSlice({
             return state;
         });
         builder.addCase(logout.fulfilled, (state, action) => {
-            alert("로그아웃 완료.");
 
             return {
                 ...state,
                 memberIndex: 0,
                 nickname: '',
-                token: ''
+                token: '',
+                isLogin:false
             }
         });
         builder.addCase(logout.rejected, (state, action) => {
             alert("에러가 발생했습니다.");
             return state;
         });
-        // builder.addCase(fetchMemberId.fulfilled, (state, action) => {
-        //     return {
-        //         ...state,
-        //         memberId: action.payload
-        //     }
-        // });
-        // builder.addCase(fetchMemberId.rejected, (state, action) => {
-        //     alert("에러가 발생했습니다.");
-        //     return state;
-        // });
         builder.addCase(findMember.fulfilled, (state, action) => {
 
             return {
@@ -123,6 +116,52 @@ const memberSlice = createSlice({
             alert("에러가 발생했습니다.");
             return state;
         });
+        builder.addCase(kakaoJwtToken.fulfilled, (state, action) => {
+
+            return {
+                ...state,
+                isLogin: true
+            }
+        });
+        builder.addCase(kakaoJwtToken.rejected, (state, action) => {
+            alert("에러가 발생했습니다.");
+            return state;
+        });
+        builder.addCase(naverJwtToken.fulfilled, (state, action) => {
+
+            return {
+                ...state,
+                isLogin: true
+            }
+        });
+        builder.addCase(googleJwtToken.fulfilled, (state, action) => {
+
+            return {
+                ...state,
+                isLogin: true
+            }
+        });
+        builder.addCase(googleJwtToken.rejected, (state, action) => {
+            alert("에러가 발생했습니다.");
+            return state;
+        });
+        builder.addCase(naverJwtToken.rejected, (state, action) => {
+            alert("에러가 발생했습니다.");
+            return state;
+        });
+        builder.addCase(getTokenAndType.fulfilled, (state, action) => {
+
+            return{
+                ...state,
+                token: action.payload.token,
+                oauthType: action.payload.type
+            }
+
+        })
+        builder.addCase(getTokenAndType.rejected, (state,action) => {
+            alert("에러가 발생했습니다.");
+            return state;
+        })
     }
 });
 

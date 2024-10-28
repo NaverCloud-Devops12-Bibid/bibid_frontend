@@ -8,8 +8,8 @@ import rightArrowIcon from '../../images/right_arrow_icon.svg';
 import hamburgerIcon from '../../images/hamburger_icon.svg';
 import {useDispatch, useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
-import {logout} from "../../apis/etc2_memberapis/memberApis"
-import HeaderSearchBar from '../Search/HeaderSearchBar';
+import {getAccessToken, getTokenAndType, logout} from "../../apis/etc2_memberapis/memberApis"
+import HeaderSearchBar from '../Search/HeaderSearchBar'
 
 const Header = () => {
 
@@ -73,50 +73,44 @@ const Header = () => {
         window.location.href = '/category';  // /category로 이동
     };
 
-    const [token, setToken] = useState(false);
+    const isLogin = useSelector(state => state.memberSlice.isLogin);
+    const jwtToken = useSelector(state => state.memberSlice.token);
+    const oauthType = useSelector(state => state.memberSlice.oauthType);
 
-    const getCookieValue = useCallback(() => {
-
-        const cookies = document.cookie.split('; ');
-        const accessTokenName = cookies.find(cookie => cookie.startsWith('ACCESS_TOKEN='));
-
-        return accessTokenName ? 'ACCESS_TOKEN' : null;
-
-    }, [token]);
-
-// 쿠키에서 ACCESS_TOKEN 삭제
-    const deleteCookie = (name) => {
-        document.cookie = `${name}=; Max-Age=0; path=/`; // Max-Age를 0으로 설정하여 쿠키 삭제
-    };
-
-    const [cookieValue, setCookieValue] = useState(null);
-
-    // 쿠키 값을 상태로 관리
-    useEffect(() => {
-        const value = getCookieValue(); // 쿠키 값을 가져옵니다.
-        setCookieValue(value); // 상태 업데이트
-    }, [getCookieValue]); // getCookieValue가 변경될 때 실행
+    const [token, setToken] = useState(null);
 
     useEffect(() => {
 
-        if (cookieValue === 'ACCESS_TOKEN') {
+        if (isLogin) {
+            dispatch(getTokenAndType());
+        }
+
+    }, [dispatch, isLogin]);
+
+    useEffect(() => {
+
+        if (isLogin) {
             setToken(true);
         } else {
             setToken(false);
         }
 
-    }, [cookieValue, token]);
+    }, [jwtToken]);
 
-    const handleLogout = useCallback(() => {
-        dispatch(logout()).then(() => {
-            if (logout.fulfilled) {
-                if (cookieValue === 'ACCESS_TOKEN') {
-                    deleteCookie(cookieValue); // 쿠키 삭제
-                    setCookieValue(null);
-                }
-            }
-        });
-    }, [dispatch, cookieValue, token]);
+
+    const handleLogout = useCallback(async () => {
+
+        await dispatch(logout());
+        const kakaoLogoutParams = {
+            client_id: "29e81fa9fda262c573f312af9934fa5c",
+            logout_redirect_uri: "http://localhost:3000/"
+        }
+        if (oauthType === "Kakao") {
+            const url = 'https://kauth.kakao.com/oauth/logout';
+            window.location.href = `${url}?client_id=${kakaoLogoutParams.client_id}&logout_redirect_uri=${kakaoLogoutParams.logout_redirect_uri}`;
+        }
+
+    }, [dispatch]);
 
     return (
         <>

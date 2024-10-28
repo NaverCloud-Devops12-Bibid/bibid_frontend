@@ -1,0 +1,61 @@
+import SockJS from "sockjs-client";
+import { Stomp } from "@stomp/stompjs";
+
+const socket = new SockJS("http://localhost:8080/ws-notifications");
+const stompClient = Stomp.over(socket);
+
+stompClient.connect({}, () => {
+  // 특정 회원의 알림을 구독합니다. 예: memberIndex가 1인 경우
+  stompClient.subscribe("/topic/notifications/1", (message) => {
+    const notification = JSON.parse(message.body);
+    console.log("알림 수신:", notification);
+    // 알림 표시 처리 (예: 화면에 표시)
+  });
+});
+
+// 알림을 전송하는 예시 (optional)
+stompClient.send("/app/notifications/send", {}, JSON.stringify({
+  memberIndex: 1,
+  alertTitle: "새로운 알림",
+  alertContent: "알림 내용 예시"
+}));
+
+@Service
+@RequiredArgsConstructor
+public class PurchaseService {
+
+    private final NotificationService notificationService;
+
+    public void completePurchase(Long memberIndex, Long productId) {
+        // 구매 완료 로직 실행
+        
+        // 알림 생성 및 전송
+        notificationService.createAndSendNotification(
+            memberIndex,
+            "구매 완료",
+            "상품이 성공적으로 구매되었습니다.",
+            "구매"
+        );
+    }
+}
+
+const socket = new SockJS("http://localhost:8080/ws-notifications");
+const stompClient = Stomp.over(socket);
+
+stompClient.connect({}, () => {
+  // 로그인한 사용자의 memberIndex에 따라 구독
+  stompClient.subscribe("/topic/notifications/" + userMemberIndex, (message) => {
+    const notification = JSON.parse(message.body);
+    console.log("새 알림:", notification);
+    // 알림 표시 처리
+  });
+});
+
+알림 관련해서는 방금 명준이한테 설계 하는 법을 들었는데
+실시간 알림 방식
+1. 웹소켓이 하나만 있을 필요 x
+2. 헤더는 항상 열려있으니 이곳에 로그인 시 웹소켓
+3. 알림 기능은 알림 타입 따라서 메시지 형식 및 키값을 다르게 줘서
+4. 프론트에서 알림 타입을 받고 파싱해서 다른 형식으로 처리
+5. 불러올 때는 캐싱(레디스)을 할지 아니면 그냥 DB접근할지 (채팅방 이전 채팅 불러오기도)
+6. 알림은 7일 지나면 자동으로 배치로 삭제

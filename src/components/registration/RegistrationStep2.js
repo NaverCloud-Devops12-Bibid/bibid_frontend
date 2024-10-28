@@ -6,6 +6,7 @@ import dayjs from 'dayjs';
 import styled from 'styled-components';
 import ThumbnailUpload from './ThumbnailUpload.js';
 import AdditionalImagesUpload from './AdditionalImagesUpload.js';
+import '../../css/Category.css';
 
 const CustomMenuItem = styled(MenuItem)(({ theme }) => ({
     height: '3rem',
@@ -41,10 +42,16 @@ const RegistrationStep2 = ({ formData, setFormData, nextStep, prevStep }) => {
       }));
   };
 
-    // 시작일 변경 핸들러
+  // 시작일 변경 핸들러
   const handleStartDateChange = (newValue) => {
     const formattedDate = newValue ? dayjs(newValue).format('YYYY-MM-DDTHH:mm:ss') : '';
-    setFormData({ ...formData, startingLocalDateTime: formattedDate });
+     setFormData((prevFormData) => ({
+    ...prevFormData,
+    startingLocalDateTime: formattedDate,
+    endingLocalDateTime: formData.auctionType === '실시간 경매' 
+      ? dayjs(newValue).add(30, 'minute').format('YYYY-MM-DDTHH:mm:ss') 
+      : prevFormData.endingLocalDateTime // 실시간 경매가 아니면 기존 값 유지
+  }));
     validateRequired('startingLocalDateTime', formattedDate);
   };
 
@@ -201,6 +208,8 @@ const RegistrationStep2 = ({ formData, setFormData, nextStep, prevStep }) => {
                 <DateTimePicker
                   value={formData.startingLocalDateTime ? dayjs(formData.startingLocalDateTime) : null}
                   onChange={handleStartDateChange}
+                  // minDateTime={dayjs().add(1, 'hour')} 
+                  minDateTime={dayjs()} 
                   renderInput={(params) => (
                     <TextField
                         {...params}
@@ -209,25 +218,38 @@ const RegistrationStep2 = ({ formData, setFormData, nextStep, prevStep }) => {
                         required
                     />
                   )}
+                  ampm={false}
                 />
-
               </Box>
 
-              <Box sx={{display:'flex', flexDirection:'row',  alignItems:'center' , my:1, ml:1}}>
-                <span style={{marginRight:'0.6rem'}}>종료일:</span>
-                <DateTimePicker
-                  value={formData.endingLocalDateTime ? dayjs(formData.endingLocalDateTime) : null}
-                  onChange={handleEndDateChange}
-                  renderInput={(params) => (
-                    <TextField
-                        {...params}
-                        error={errors.endingLocalDateTime}
-                        helperText={errors.endingLocalDateTime ? '종료일을 선택해 주세요.' : ''}
-                        required
+              <Box sx={{display: 'flex', flexDirection:'row',  alignItems:'center' , my:1, ml:1}}>
+                {formData.auctionType !== '실시간 경매' ?
+                  <>
+                  <span style={{marginRight:'0.6rem'}}>종료일:</span>
+                    <DateTimePicker
+                      value={formData.endingLocalDateTime ? dayjs(formData.endingLocalDateTime) : null}
+                      onChange={handleEndDateChange}
+                      minDateTime={dayjs(formData.startingLocalDateTime).add(1, 'hour')}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          error={errors.endingLocalDateTime}
+                          helperText={errors.endingLocalDateTime ? '종료일을 선택해 주세요.' : ''}
+                          required
+
+                          disabled={formData.auctionType === '실시간 경매'}
+                          style={{
+                            display: formData.auctionType === '실시간 경매' ? 'none' : 'block'
+                          }}
+                        />
+                      )}
+                      ampm={false}
                     />
-                  )}
-                />
-                
+                    </> :
+                    <p className='dateTimePickerAlert'>
+                      ** 실시간 경매일 시, 종료시간이 시작시간으로 부터 30분 이후로 설정됩니다.
+                    </p>
+                  }
               </Box>
 
             </Grid2>

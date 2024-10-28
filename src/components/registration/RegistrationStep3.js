@@ -1,7 +1,6 @@
 import React from 'react';
 import { Container, TextField, Button, Typography, Grid2, RadioGroup, FormControlLabel, Radio } from '@mui/material';
 import axios from 'axios';
-import Cookies from "js-cookie";
 
 const RegistrationStep3 = ({ formData, setFormData, nextStep, prevStep }) => {
 
@@ -31,15 +30,10 @@ const RegistrationStep3 = ({ formData, setFormData, nextStep, prevStep }) => {
       formData.additionalImages.forEach((file) => {
         formDataToSend.append('additionalImages', file);
       });
-
-      const token = Cookies.get('ACCESS_TOKEN');;
       
       // 서버로 FormData 전송 (예: axios 사용)
       axios.post('http://localhost:8080/auction/post', formDataToSend, {
-        headers: {
-           Authorization: `Bearer ${token}`,
-          "Content-Type": "multipart/form-data"
-        }
+        withCredentials: true
       })
       .then(response => {
         console.log(response);

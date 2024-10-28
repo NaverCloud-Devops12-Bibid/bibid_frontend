@@ -22,7 +22,6 @@
     "express": "^4.21.1",
     "firebase": "^10.14.1",
     "hls.js": "^1.5.17",
-    "js-cookie": "^3.0.5",
     "kakao-js-sdk": "^1.2.3",
     "obs-websocket-js": "^5.0.6",
     "react": "^18.3.1",

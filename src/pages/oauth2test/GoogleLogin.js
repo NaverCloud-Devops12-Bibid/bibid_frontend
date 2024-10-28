@@ -5,7 +5,7 @@ import {useRecoilState} from "recoil";
 import {userInfoState} from './userInfoState';
 import "./KakaoLogin.css"
 import {useDispatch, useSelector} from "react-redux";
-import {kakaoJwtToken} from "../../apis/etc2_memberapis/memberApis";
+import {googleJwtToken, kakaoJwtToken} from "../../apis/etc2_memberapis/memberApis";
 import styled from "styled-components";
 
 const CenteredContainer = styled.div`
@@ -15,7 +15,7 @@ const CenteredContainer = styled.div`
     height: 100vh;
 `
 
-function KakaoLogin() {
+function GoogleLogin() {
 
     const dispatch = useDispatch();
     const navi = useNavigate();
@@ -25,11 +25,12 @@ function KakaoLogin() {
         // URL에서 'code' 파라미터를 추출
         const params = new URLSearchParams(window.location.search);
         const code = params.get('code');
+        console.log("code:" + code);
 
         const fetchData = async() => {
             if (code) {
                 // 백엔드로 인가 코드 전송
-                await dispatch(kakaoJwtToken(code));
+                await dispatch(googleJwtToken(code));
                 navi("/");
             }
         }
@@ -45,4 +46,4 @@ function KakaoLogin() {
     )
 }
 
-export default KakaoLogin;
+export default GoogleLogin;

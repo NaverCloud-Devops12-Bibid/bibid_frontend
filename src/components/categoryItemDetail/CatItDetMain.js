@@ -121,7 +121,8 @@ const CatItDetMain = ({ auctionItem, auctionBidInfo, seller, biddingMember, info
     axios.post(`http://localhost:8080/auctionDetail/category-item-detail/${auctionItem.auctionIndex}`, biddingData, {
       headers: {
         'Content-Type': 'application/json', // 요청의 콘텐츠 타입을 JSON으로 지정
-      }
+      },
+      withCredentials : true
     })
     .then((response) => {
       console.log('Success:', response.data); // 성공 시 서버로부터 응답 데이터 출력
@@ -228,13 +229,16 @@ const CatItDetMain = ({ auctionItem, auctionBidInfo, seller, biddingMember, info
     <div className="CID-item-block">
       <div className="CID-bid-item-container">
         {/* 이미지 섹션 */}
+
         <div className="CID-image-section">
-          <img src={prePath + auctionImages[0]} alt="Main Image" className="CID-main-image" />
-          <div className="CID-thumbnail-container">
-            {auctionImages.slice(1).map((imageUrl, index) => (
-              <img key={index} src={prePath + imageUrl} alt={`Image ${index + 1}`} className="CID-thumbnail" />
-              ))}
-          </div>
+
+        <img src={auctionImages[0]} alt="Main Image" className="CID-main-image" />
+        <div className="CID-thumbnail-container">
+          {auctionImages.slice(1).map((imageUrl, index) => (
+            <img key={index} src={imageUrl} alt={`Image ${index + 1}`} className="CID-thumbnail" />
+            ))}
+        </div>
+
           {/* 판매자 섹션 */}
           <div className="CID-merchant-section">
             <div className="CID-merchant-info">

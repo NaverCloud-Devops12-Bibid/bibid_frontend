@@ -2,9 +2,8 @@ import { useState, useEffect } from 'react';
 import SockJS from 'sockjs-client';
 import { Client } from '@stomp/stompjs';
 import { useSelector } from 'react-redux';
-import Cookies from "js-cookie";
 
-const useWebSocket = (auctionIndex, isChatClosed, setIsChatClosed) => {
+const useAuctionWebSocket = (auctionIndex, isChatClosed) => {
 
   const loginMemberNickname = useSelector((state) => state.memberSlice.nickname);
 
@@ -16,7 +15,7 @@ const useWebSocket = (auctionIndex, isChatClosed, setIsChatClosed) => {
   const [bidAmounts, setBidAmounts] = useState({});
   const [bidderNicknames, setBidderNicknames] = useState({});
   const [participantCount, setParticipantCount] = useState({}); // 참여자 수 상태 추가
-  const [auctionStatuses, setAuctionStatuses] = useState({});
+  const [auctionDetails, setAuctionDetails] = useState({});
 
   // 컬러 배열 정의
   const colors = [
@@ -29,8 +28,8 @@ const useWebSocket = (auctionIndex, isChatClosed, setIsChatClosed) => {
 
   // 해시 함수로 닉네임을 해싱하여 색상 선택
   const getNicknameColor = (nickname) => {
-    if (nickname === '시스템') {
-      return '#0000FF'; // 파란색
+    if (nickname == '시스템') {
+      return '#0A369D'; // 파란색
     }
 
     // 닉네임의 해시 값을 계산
@@ -49,15 +48,12 @@ const useWebSocket = (auctionIndex, isChatClosed, setIsChatClosed) => {
 
     if (!auctionIndex || isChatClosed) return;
 
-    const connectWebSocket = () => {
-      const token = Cookies.get('ACCESS_TOKEN');
+    const connectAuctionWebSocket = () => {
 
-      const socket = new SockJS('http://localhost:8080/ws');
-      const client = new Client({
-        webSocketFactory: () => socket,
-        connectHeaders: {
-          Authorization: `Bearer ${token}`,
-        },
+      const auctionSocket = new SockJS('http://localhost:8080/ws', null, { withCredentials: true });
+      const auctionClient = new Client({
+        webSocketFactory: () => auctionSocket,
+        connectHeaders: {}, // Authorization 헤더를 삭제합니다
 
         onConnect: () => {
           setConnected(true);
@@ -65,7 +61,7 @@ const useWebSocket = (auctionIndex, isChatClosed, setIsChatClosed) => {
           setMessages((prev) => ({ ...prev, [auctionIndex]: [] }));
 
           // 채팅 구독
-          client.subscribe(`/topic/public/${auctionIndex}`, (message) => {
+          auctionClient.subscribe(`/topic/public/${auctionIndex}`, (message) => {
             const newMessage = JSON.parse(message.body);
             console.log("Message received:", newMessage);
             setMessages((prevMessages) => ({
@@ -83,7 +79,7 @@ const useWebSocket = (auctionIndex, isChatClosed, setIsChatClosed) => {
           });
 
           // 경매 구독
-          client.subscribe(`/topic/auction/${auctionIndex}`, (message) => {
+          auctionClient.subscribe(`/topic/auction/${auctionIndex}`, (message) => {
               const auctionInfo = JSON.parse(message.body);
               console.log("Bid received:", auctionInfo);
       
@@ -105,7 +101,7 @@ const useWebSocket = (auctionIndex, isChatClosed, setIsChatClosed) => {
           });
 
           // 참여자 입장 구독
-          client.subscribe(`/topic/participants/enter/${auctionIndex}`, (message) => {
+          auctionClient.subscribe(`/topic/participants/enter/${auctionIndex}`, (message) => {
             const participantEnterInfo = JSON.parse(message.body);
             console.log("Participant count(enter):", participantEnterInfo);
           
@@ -130,7 +126,7 @@ const useWebSocket = (auctionIndex, isChatClosed, setIsChatClosed) => {
           });
 
           // 참여자 퇴장 구독
-          client.subscribe(`/topic/participants/leave/${auctionIndex}`, (message) => {
+          auctionClient.subscribe(`/topic/participants/leave/${auctionIndex}`, (message) => {
             const participantLeaveInfo = JSON.parse(message.body);
             console.log("Participant count(leave):", participantLeaveInfo);
           
@@ -153,47 +149,39 @@ const useWebSocket = (auctionIndex, isChatClosed, setIsChatClosed) => {
               [auctionIndex]: participantLeaveInfo.participantCount,
             }));
           });
-          
+
+          // 경매 낙찰 구독 추가
+          auctionClient.subscribe(`/topic/auction/${auctionIndex}`, (message) => {
+              const auctionDetail = JSON.parse(message.body);
+              console.log("Auction end received:", auctionDetail);
+
+              // auctionIndex에 해당하는 낙찰자와 금액 저장
+              setAuctionDetails((prev) => ({
+                ...prev,
+                [auctionIndex]: {
+                  winnerIndex: auctionDetail.winnerIndex,
+                  winningBid: auctionDetail.winningBid,
+                },
+              }));
+              
+              // 경매 종료 시 추가 로직 수행 (예: UI 업데이트)
+            });
+
+        
           // 방에 입장할 때 메시지 초기화
           // 입장 메시지 전송
-          sendJoinMessage(client, auctionIndex);
+          sendJoinMessage(auctionClient, auctionIndex);
         },
         onStompError: (error) => {
           console.error("WebSocket error:", error);
         },
       });
 
-      // // 경매 종료 구독
-      // client.subscribe(`/topic/auction/end/${auctionIndex}`, (message) => {
-      //   const auctionEndInfo = JSON.parse(message.body);
-      //   console.log("Auction end received:", auctionEndInfo);
-
-      //   // auctionIndex에 따라 경매 종료 상태를 업데이트
-      //   setAuctionStatuses((prev) => ({
-      //     ...prev,
-      //     [auctionIndex]: "ended", // 해당 경매의 상태를 "ended"로 설정
-      //   }));
-      // });
-
-      // // 경매 일시 중지 구독
-      // client.subscribe(`/topic/auction/suspended/${auctionIndex}`, (message) => {
-      //   const auctionSuspendedInfo = JSON.parse(message.body);
-      //   console.log("Auction suspended received:", auctionSuspendedInfo);
-
-      //   // auctionIndex에 따라 경매 중단 상태를 업데이트
-      //   setAuctionStatuses((prev) => ({
-      //     ...prev,
-      //     [auctionIndex]: "suspended", // 해당 경매의 상태를 "suspended"로 설정
-      //   }));
-      // });
-
-      client.activate();
-      setStompClient(client);
-      setIsChatClosed(true);
-
+      auctionClient.activate();
+      setStompClient(auctionClient);
     };
 
-    connectWebSocket();
+    connectAuctionWebSocket();
 
     return () => {
       if (stompClient) {
@@ -290,8 +278,8 @@ const useWebSocket = (auctionIndex, isChatClosed, setIsChatClosed) => {
     participantCount, // 추가된 참여자 수 상태 반환
     disconnectWebSocket, // 연결 해제 함수 반환
     bidderNicknames,
-    // auctionStatuses
+    auctionDetails
   };
 };
 
-export default useWebSocket;
+export default useAuctionWebSocket;

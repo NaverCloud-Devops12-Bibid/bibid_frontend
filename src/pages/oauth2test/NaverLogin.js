@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
-import axios from "axios";
-import {useRecoilState} from "recoil";
-import {userInfoState} from './userInfoState';
+// import axios from "axios";
+// import {useRecoilState} from "recoil";
+// import {userInfoState} from './userInfoState';
 import "./KakaoLogin.css"
 import {useDispatch, useSelector} from "react-redux";
-import {kakaoJwtToken} from "../../apis/etc2_memberapis/memberApis";
+import {kakaoJwtToken, naverJwtToken} from "../../apis/etc2_memberapis/memberApis";
 import styled from "styled-components";
 
 const CenteredContainer = styled.div`
@@ -15,11 +15,12 @@ const CenteredContainer = styled.div`
     height: 100vh;
 `
 
-function KakaoLogin() {
+function NaverLogin() {
 
     const dispatch = useDispatch();
     const navi = useNavigate();
 
+    // Access Token 받아오기
     // Access Token 받아오기
     useEffect(() => {
         // URL에서 'code' 파라미터를 추출
@@ -29,7 +30,7 @@ function KakaoLogin() {
         const fetchData = async() => {
             if (code) {
                 // 백엔드로 인가 코드 전송
-                await dispatch(kakaoJwtToken(code));
+                await dispatch(naverJwtToken(code));
                 navi("/");
             }
         }
@@ -45,4 +46,4 @@ function KakaoLogin() {
     )
 }
 
-export default KakaoLogin;
+export default NaverLogin;

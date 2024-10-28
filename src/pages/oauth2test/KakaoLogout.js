@@ -17,32 +17,12 @@ const CenteredContainer = styled.div`
 
 function KakaoLogin() {
 
-    const dispatch = useDispatch();
-    const navi = useNavigate();
-
-    // Access Token 받아오기
-    useEffect(() => {
-        // URL에서 'code' 파라미터를 추출
-        const params = new URLSearchParams(window.location.search);
-        const code = params.get('code');
-
-        const fetchData = async() => {
-            if (code) {
-                // 백엔드로 인가 코드 전송
-                await dispatch(kakaoJwtToken(code));
-                navi("/");
-            }
-        }
-
-        fetchData();
-
-    }, [dispatch, navi]);
-
     return (
         <CenteredContainer>
             <div className="loader"></div>
         </CenteredContainer>
-    )
+
+)
 }
 
 export default KakaoLogin;

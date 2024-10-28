@@ -36,6 +36,7 @@ const StyledMenuProps = {
   };
 
 const RegistrationStep1 = ({ formData, setFormData, nextStep}) => {
+  
 
     const handleSubmit = (e) => {
       e.preventDefault();
@@ -71,7 +72,9 @@ const RegistrationStep1 = ({ formData, setFormData, nextStep}) => {
                     paddingLeft:'20px',
                     borderTopRightRadius: '10px',
                     borderBottomRightRadius: '10px'}}>
-                {formData.auctionType && formData.category && formData.subcategory ? `${formData.auctionType} > ${formData.category} > ${formData.subcategory}` : ''}
+                 {[formData.auctionType, formData.category, formData.subcategory]
+                  .filter(Boolean)
+                  .join(' > ')}
             </Grid2>
           </Grid2>
 
@@ -91,7 +94,7 @@ const RegistrationStep1 = ({ formData, setFormData, nextStep}) => {
 
             <Select
              value={formData.category}
-             onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+             onChange={(e) => setFormData({ ...formData, category: e.target.value, subcategory: ''})}
               MenuProps={StyledMenuProps}
               displayEmpty
               renderValue={(selected) => selected || <Typography sx={{ color: '#777777', fontWeight: 'bold' }}>카테고리 선택</Typography>}

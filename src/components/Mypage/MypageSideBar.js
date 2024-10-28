@@ -1,9 +1,32 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import '../../css/Mypage/Mypage.css';
+import { useNavigate } from 'react-router-dom';
 
-const MypageSideBar = () => {
+const MypageSideBar = ({ memberInfo }) => {
+  const memberIndex = useSelector((state) => state.memberSlice.memberIndex); 
 
-  // const profileImg = 실제이미지경로;
+  const navi = useNavigate();
+
+  const handleProfileClick =() => {
+    navi('/mypage/userInfo');
+  }
+
+  const handleAuctionClick =() => {
+    navi('/mypage/auctionInfo');
+  }
+
+  const handleWalletClick =() => {
+    navi('/mypage/wallet');
+  }
+
+  const handleQnaClick =() => {
+    navi('/mypage/qna');
+  }
+
+  const handleSellerClick =() => {
+    navi('/mypage/sellerInfo');
+  }
 
   return (
     <div className='Mypage_SideBarContainer'>
@@ -12,15 +35,14 @@ const MypageSideBar = () => {
               <div className='Mypage_ProfileImgModifyBtn'></div>
             </div>
             <div className='Mypage_ProfileUserName'>
-              유저이름
-            </div>
+        </div>
         </div>
         <div className='Mypage_SideBarCategory'>
-            <div>내 프로필</div>
-            <div>경매 내역</div>
-            <div>지갑 관리</div>
-            <div>문의 내역</div>
-            <div></div>
+            <div onClick={handleProfileClick} style={{ cursor: 'pointer' }} >내 프로필</div>
+            <div onClick={handleAuctionClick} style={{ cursor: 'pointer' }} >경매 내역</div>
+            <div onClick={handleWalletClick} style={{ cursor: 'pointer' }} >지갑 관리</div>
+            <div onClick={handleQnaClick} style={{ cursor: 'pointer' }} >문의 내역</div>
+            <div onClick={handleSellerClick} style={{ cursor: 'pointer' }} >판매자 정보 등록</div>
         </div>
     </div>
   )

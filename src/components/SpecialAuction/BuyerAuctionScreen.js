@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import { getFormattedRemainingTime } from '../../util/utils';
 import axios from 'axios';
 import VideoSection from './VideoSection';
-import Cookies from "js-cookie";
 import Draggable from 'react-draggable'; // react-draggable import
 
 function BuyerAuctionScreen({ 
@@ -10,17 +9,22 @@ function BuyerAuctionScreen({
 }) {
 
   const [streamingUrl, setStreamingUrl] = useState([]);
+  const [isLive, setIsLive] = useState(true);
+  const [isBidDisabled, setIsBidDisabled] = useState(false); // 입찰 버튼 비활성화 상태 관리
+
+  useEffect(() => {
+    if (auction.auctionStatus === '방송중') {
+      setIsBidDisabled(false);
+    } else {
+      setIsBidDisabled(true);
+    }
+  }, [auction]);
 
   useEffect(() => {
     const fetchChannelInfo = async () => {
       try {
 
-        const token = Cookies.get('ACCESS_TOKEN');
-        const response = await axios.get(`http://localhost:8080/specialAuction/channelInfo/${auction.auctionIndex}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await axios.get(`http://localhost:8080/specialAuction/channelInfo/${auction.auctionIndex}`, { withCredentials: true });
         const channelInfoDto = response.data.item; 
 
         setStreamingUrl(channelInfoDto.serviceUrlList);
@@ -122,7 +126,7 @@ function BuyerAuctionScreen({
       <div className='SAtotalPopup'>
         <div className="SAbuyerPopup">
           <div className="SAliveAuctionHeader">
-            <h3>Live On</h3>
+            <h3>{isLive ? 'Live On' : 'Live Off'}</h3>
             <h1>구매자</h1>
             <div className="SAviewerCount">
               <img src='/images/people_icon.svg' alt="Viewer Count" />
@@ -136,13 +140,6 @@ function BuyerAuctionScreen({
               <div className="SAproductSection">
                 <div className='SAliveStreamingHeader'>
                   <div className='SAliveStreamingButtonBox'>
-                    <div className='SAliveStreamingButton' onClick={handleSoundToggle}>
-                      {isSoundOn ? (
-                        <img id='SAsoundOnIcon' src='/images/sound_on_icon.svg' alt="Sound On" />
-                      ) : (
-                        <img id='SAsoundOffIcon' src='/images/sound_off_icon.svg' alt="Sound Off" />
-                      )}
-                    </div>
                     <div className='SAliveStreamingButton' onClick={toggleAuctionInfo}>
                       <img src='/images/SA_bid_icon.svg'></img>
                     </div>
@@ -205,6 +202,7 @@ function BuyerAuctionScreen({
                       </div>
                     </div>
                     <div className='SAbidSubmitButtonBox'>
+                      {/* <button className="SAbidSubmitButton" onClick={openBidConfirmPopup} disabled={isBidDisabled}>입찰하기</button> */}
                       <button className="SAbidSubmitButton" onClick={openBidConfirmPopup}>입찰하기</button>
                     </div>
                   </div>

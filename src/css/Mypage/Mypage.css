@@ -5,27 +5,28 @@
 .Mypage_Container {
     width: 1200px;
     height: max-content;
-    background-color: #BFBFBF;
     display: flex;
+    gap: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .Mypage_SideBarContainer {
     width: 300px;
     height: 800px;
-    background-color: red;
     display: flex;
     flex-direction: column;
-    border-radius: 5px;
+    border-radius: 10px;
     border: 2px solid #BFBFBF;
+    justify-content: center;
+    align-items: center;
 }
 
 .Mypage_SideBarProfile {
     display: flex;
-    width: 300px;
-    height: 300px;
-    background-color: blue;
-    border: 2px solid #BFBFBF;
-    border-radius: 5px;
+    width: 280px;
+    height: 280px;
+    border-bottom: 2px solid #BFBFBF;
     justify-content: center;
     align-items: center;
     flex-direction: column;
@@ -36,8 +37,7 @@
     width: 200px;
     height: 200px;
     border-radius: 100%;
-    background-color: red;
-    border: 5px solid #BFBFBF;
+    border: 1px solid #BFBFBF;
     flex-direction: column;
     justify-content: flex-end;
     align-items: end;
@@ -53,10 +53,7 @@
 .Mypage_SideBarCategory {
     width: 300px;
     height: 500px;
-    background-color: bisque;
     display: flex;
-    border: 2px solid #BFBFBF;
-    border-radius: 5px;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -67,20 +64,17 @@
     display: flex;
     width: 900px;
     height: 800px;
-    background-color: yellowgreen;
     display: flex;
-    border-radius: 5px;
+    border-radius: 10px;
     border: 2px solid #BFBFBF;
     align-items: center;
     flex-direction: column;
-    justify-content: space-between;
 }
 
 .Mypage_UserInfoContainer {
     display: flex;
     width: 800px;
     height: 600px;
-    background-color: gray;
     flex-direction: column;
 }
 
@@ -91,9 +85,20 @@
     grid-template-columns: 1fr 2fr;
     align-items: center;
     justify-items: center;
+    border-top: 1px solid #BFBFBF;
 }
 
 .Mypage_UserInfoDetail2 {
+    display: grid;
+    width: 800px;
+    height: 150px;
+    grid-template-columns: 1fr 2fr;
+    align-items: center;
+    justify-items: center;
+    border-top: 1px solid #BFBFBF;
+}
+
+.Mypage_UserInfoDetail3 {
     display: grid;
     width: 800px;
     height: 150px;
@@ -109,12 +114,21 @@
     align-items: center;
 }
 
-.rightOne, .rightTwo {
+.rightOne {
     display: flex;
     width: 500px;
     height: 75px;
     align-items: center;
     justify-content: flex-start;
+}
+
+.rightTwo {
+    display: flex;
+    width: 500px;
+    height: 75px;
+    align-items: center;
+    justify-content: flex-start;
+    border-top: 1px solid #BFBFBF;
 }
 
 .Mypage_UserInfoTitle {
@@ -141,18 +155,33 @@
 
 .Mypage_WalletInfoContainer {
     display: flex;
-    width: 800px;
-    height: 150px;
-    background-color: black;
+    width: 700px;
+    height: 100px;
+    justify-content: space-between;
+}
+
+.Mypage_WalletCredit {
+    display: flex;
+    flex-direction: row;
+    width: 300px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.Mypage_WalletBtn {
+    display: flex;
+    flex-direction: row;
+    width: 300px;
+    justify-content: right;
+    align-items: center;
 }
 
 .Mypage_WalletBoxContainer {
     display: flex;
     width: 900px;
     height: 800px;
-    background-color: yellowgreen;
     display: flex;
-    border-radius: 5px;
+    border-radius: 10px;
     border: 2px solid #BFBFBF;
     align-items: center;
     flex-direction: column;
@@ -162,22 +191,95 @@
     display: flex;
     width: 700px;
     height: 500px;
-    background-color: pink;
+    justify-content: center;
+    align-items: center;
+    border: solid 2px #BFBFBF;
+    border-radius: 5px;
+}
+
+.Mypage_WalletUsed {
+    width: 700px;
+    height: 490px;
+    overflow-y: auto;
+}
+
+.Mypage_WalletUsed::-webkit-scrollbar {
+    display: none;
+}
+
+.Mypage_TitleContainer {
+    display: flex;
+    width: 800px;
+    height: 100px;
+    border-bottom: 5px solid #BFBFBF;
     justify-content: center;
     align-items: center;
 }
 
-.Mypage_WalletUsed {
-    width: 650px;
-    height: 450px;
-    background-color: rosybrown;
-    overflow-y: auto;
+.Mypage_ModifyBtnContainer {
+    display: flex;
+    width: 800px;
+    height: 100px;
+    border-top: 5px solid #BFBFBF;
+    justify-content: center;
+    align-items: center;
 }
 
-.test1 {
+.Mypage_WalletCard {
+    display: flex;
+    flex-direction: row;
     height: 100px;
-    background-color: white;
-    border: 1px solid black;
+    border: 1px solid #BFBFBF;
     border-radius: 5px;
     margin: 5px 5px 5px 5px;
+    justify-content: space-between;
+    align-content: center;
+}
+
+.Mypage_WalletCardLeft {
+    display: flex;
+    width: 100px;
+    justify-content: center;
+    align-items: center;
+}
+
+.Mypage_WalletCardRight {
+    display: flex;
+    flex-direction: column;
+    width: 520px;
+    height: 90px;
+    justify-content: center;
+    align-content: center;
+    margin-top: 5px;
+}
+
+.Mypage_WalletCardLine1 {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.Mypage_WalletCardLine2 {
+    display: flex;
+    flex-direction: row;
+}
+
+.Mypage_WalletCardLine3 {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.Mypage_WalletLine {
+    display: flex;
+    height: 90px;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.Mypage_WalletRecordLine {
+    display: flex;
+    width: 700px;
+    height: 50px;
+    align-items: center;
 }

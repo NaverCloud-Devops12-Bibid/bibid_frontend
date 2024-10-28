@@ -59,7 +59,7 @@ body{
 .HDnavbarMenuDetailFlex {
     width: 100%;
     display: flex;
-    padding-left: 30.5rem;
+    padding-left: 29.2rem;
     gap: 0.8rem;
     position: relative;
 }
@@ -99,7 +99,7 @@ body{
 .HDarrowIcon {
     position: absolute;
     top: 3.78rem;
-    left: 45rem;
+    left: 44rem;
     opacity: 0;
     transition: all 0.3s ease-in-out;
 }
@@ -116,7 +116,7 @@ body{
     display: none;
     flex-direction: column;
     position: absolute; /* 상세 메뉴 박스를 절대 위치로 설정 */
-    top: 3.15rem;
+    top: 2.2rem;
     left: 0;
     background-color: white;
     padding: 10px;

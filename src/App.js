@@ -35,54 +35,64 @@ import KakaoLogin from "./pages/oauth2test/KakaoLogin";
 import Mypage_UserInfo from './pages/mypage/Mypage_UserInfo';
 import Mypage_AuctionInfo from './pages/mypage/Mypage_AuctionInfo';
 import Mypage_Wallet from './pages/mypage/Mypage_Wallet';
+import Mypage_UserInfoModify from './pages/mypage/Mypage_UserInfoModify';
+import NaverLogin from "./pages/oauth2test/NaverLogin";
+import KakaoLogout from "./pages/oauth2test/KakaoLogout";
+import GoogleLogin from "./pages/oauth2test/GoogleLogin";
+import React from "react";
+import { NotificationProvider } from './context/NotificationContext';
 
 function App() {
-
-    useFCM();
 
     const persiststore = persistStore(store);
 
     return (
-        <Provider store={store}>
-            <PersistGate loading={null} persistor={persiststore}>
-                <Routes>
-                    <Route path="/loginpage" element={<Loginpage/>} />
-                    <Route path="/auth/kakao/callback" element={<KakaoLogin/>} />
-                    <Route path='/login' element={<Login/>}/>
-                    <Route path='/find' element={<FindMember/>}/>
-                    <Route path='/modifyPasswd' element={<ModifyPasswd/>}/>
-                    <Route path='/' element={<Layout/>}>
-                        <Route index element={<Mainpage/>}/>
-                        <Route path='/search' element={<Search/>}/>
-                        <Route path='/specialAuction' element={<SpecialAuction/>}/>
-                        <Route path='/registration/*' element={<RegistrationForm/>}/>
-                        <Route path='/category' element={<Category/>}/>
-                        <Route path='/category/all' element={<DetailedCategory_All/>}/>
-                        <Route path='/category/clothing' element={<DetailedCategory_Clothing/>}/>
-                        <Route path='/category/hob' element={<DetailedCategory_Hob/>}/>
-                        <Route path='/category/book' element={<DetailedCategory_Book/>}/>
-                        <Route path='/category/art' element={<DetailedCategory_Art/>}/>
-                        <Route path='/category/elec' element={<DetailedCategory_Elec/>}/>
-                        <Route path='/category/pic' element={<DetailedCategory_Pic/>}/>
-                        <Route path='/category/antique' element={<DetailedCategory_Antique/>}/>
-                        <Route path='/category-itemdetail/:auctionNumber' element={<CategoryItemDetail/>}/>
-                        <Route path='/checkNcloudApi' element={<CheckNcloudApi/>}/>
-                        {/* mypage 에서 지정한 mui 버튼 스타일 충돌 */}
-                        <Route path="join/*" element={<JoinRoutes/>}/>
-                        <Route path='/mypage/userinfo/' element={<Mypage_UserInfo/>}/>
-                        <Route path='/mypage/auctioninfo/' element={<Mypage_AuctionInfo/>}/>
-                        <Route path='/mypage/wallet/' element={<Mypage_Wallet/>}/>
-                            {/* <Route path='info' element={<Mypage_info/>}/>
-                            <Route path='update' element={<Mypage_info_update/>}/>
-                            <Route path='bids_history' element={<Mypage_bids_history/>}/>
-                            <Route path='wallet_management' element={<Mypage_wallet_management/>}></Route>
-                            <Route path='bids_progress' element={<Mypage_bids_progress/>}></Route>
-                            <Route path='qna' element={<Mypage_qna/>}></Route>
-                        </Route> */}
-                    </Route>
-                </Routes>
-            </PersistGate>
-        </Provider>
+        <NotificationProvider>
+            <Provider store={store}>
+                <PersistGate loading={null} persistor={persiststore}>
+                    <Routes>
+                        <Route path="/loginpage" element={<Loginpage/>} />
+                        <Route path="/auth/kakao/callback" element={<KakaoLogin/>} />
+                        <Route path="/auth/kakao/logout" element={<KakaoLogout/>} />
+                        <Route path="/auth/naver/callback" element={<NaverLogin/>}/>
+                        <Route path="/auth/google/callback" element={<GoogleLogin/>}/>
+                        <Route path='/login' element={<Login/>}/>
+                        <Route path='/find' element={<FindMember/>}/>
+                        <Route path='/modifyPasswd' element={<ModifyPasswd/>}/>
+                        <Route path='/' element={<Layout/>}>
+                            <Route index element={<Mainpage/>}/>
+                            <Route path='/search' element={<Search/>}/>
+                            <Route path='/specialAuction' element={<SpecialAuction/>}/>
+                            <Route path='/registration/*' element={<RegistrationForm/>}/>
+                            <Route path='/category' element={<Category/>}/>
+                            <Route path='/category/all' element={<DetailedCategory_All/>}/>
+                            <Route path='/category/clothing' element={<DetailedCategory_Clothing/>}/>
+                            <Route path='/category/hob' element={<DetailedCategory_Hob/>}/>
+                            <Route path='/category/book' element={<DetailedCategory_Book/>}/>
+                            <Route path='/category/art' element={<DetailedCategory_Art/>}/>
+                            <Route path='/category/elec' element={<DetailedCategory_Elec/>}/>
+                            <Route path='/category/pic' element={<DetailedCategory_Pic/>}/>
+                            <Route path='/category/antique' element={<DetailedCategory_Antique/>}/>
+                            <Route path='/category-itemdetail/:auctionNumber' element={<CategoryItemDetail/>}/>
+                            <Route path='/checkNcloudApi' element={<CheckNcloudApi/>}/>
+                            {/* mypage 에서 지정한 mui 버튼 스타일 충돌 */}
+                            <Route path="join/*" element={<JoinRoutes/>}/>
+                            <Route path='/mypage/userinfo/' element={<Mypage_UserInfo/>}/>
+                            <Route path='/mypage/userInfo/modify' element={<Mypage_UserInfoModify/>}/>
+                            <Route path='/mypage/auctioninfo/' element={<Mypage_AuctionInfo/>}/>
+                            <Route path='/mypage/wallet/' element={<Mypage_Wallet/>}/>
+                                {/* <Route path='info' element={<Mypage_info/>}/>
+                                <Route path='update' element={<Mypage_info_update/>}/>
+                                <Route path='bids_history' element={<Mypage_bids_history/>}/>
+                                <Route path='wallet_management' element={<Mypage_wallet_management/>}></Route>
+                                <Route path='bids_progress' element={<Mypage_bids_progress/>}></Route>
+                                <Route path='qna' element={<Mypage_qna/>}></Route>
+                            </Route> */}
+                        </Route>
+                    </Routes>
+                </PersistGate>
+            </Provider>
+        </NotificationProvider>
     );
 }
 

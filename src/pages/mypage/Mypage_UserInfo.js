@@ -1,13 +1,42 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import axios from 'axios';
 import '../../css/Mypage/Mypage.css';
 import MypageSideBar from '../../components/Mypage/MypageSideBar';
 import MypageProfileBox from '../../components/Mypage/MypageProfileBox';
 
 const Mypage_UserInfo = () => {
+
+    const [memberInfo, setMemberInfo] = useState(null);
+    const memberIndex = useSelector((state) => state.memberSlice.memberIndex); 
+
+  useEffect(() => {
+    // API 호출 함수
+    const fetchMemberInfo = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8080/mypage/${memberIndex}`);
+        console.log("Fetched member info:", response.data.item);
+        setMemberInfo(response.data.item); // 응답에서 멤버 정보 저장
+      } catch (error) {
+        console.error("Error fetching member info:", error); // 오류 처리
+      }
+    };
+
+    if (memberIndex) {
+      fetchMemberInfo(); // memberIndex가 있을 때만 호출
+    }
+  }, [memberIndex]);
+
 	return (
         <div className='Mypage_Container'>
-            <MypageSideBar/>
-            <MypageProfileBox/>
+            {memberInfo ? (
+            <>
+                <MypageSideBar memberInfo={memberInfo} />
+                <MypageProfileBox memberInfo={memberInfo} />
+            </>
+            ) : (
+            <p>로딩 중...</p> // 데이터가 로딩 중일 때 표시할 메시지
+            )}
         </div>
 	);
 };

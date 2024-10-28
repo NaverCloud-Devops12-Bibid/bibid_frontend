@@ -9,9 +9,9 @@ import {
     REGISTER
 } from 'redux-persist';
 import storageSession from 'redux-persist/es/storage/session';
-import memberSlice from "../slices/etc2_memberslice/memberSlice";
 import specialAuctionSlice from "../slices/specialAuction/specialAuctionSlice";
 import searchSlice from '../slices/search/searchSlice';
+import memberSlice from "../slices/member/memberSlice";
 
 
 const reducers = combineReducers({

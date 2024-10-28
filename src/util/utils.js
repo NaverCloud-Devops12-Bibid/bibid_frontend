@@ -10,7 +10,11 @@ export const formatTimeDifference = (timeDiff) => {
   
 // 시간이 undefined거나 null일 때 기본 처리 함수
 export const getFormattedRemainingTime = (remainingTime) => {
-return remainingTime ? formatTimeDifference(remainingTime) : '시간 계산 중...';
+
+  if (remainingTime == null) return '시간 계산 중...';
+  if (remainingTime < 0) return '종료';
+  
+  return formatTimeDifference(remainingTime);
 };
 
 // 유틸리티 함수

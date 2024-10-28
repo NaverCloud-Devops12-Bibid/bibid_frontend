@@ -56,7 +56,7 @@ const AdditionalImagesUpload = ({ formData, setFormData }) => {
                 </Typography>
                 <Box
                     sx={{
-                        width: '85%',
+                        width: '75%',
                         display: 'grid',
                         gridTemplateColumns: 'repeat(3, 1fr)', // 3개의 열로 배치
                         gap: '10px', // 간격 조정
@@ -86,10 +86,10 @@ const AdditionalImagesUpload = ({ formData, setFormData }) => {
                                     position: 'absolute',
                                     top: 0,
                                     right: 0,
-                                    backgroundColor: 'red',
+                                    backgroundColor: '#2E2E2E',
                                     color: 'white',
                                     minWidth: '20px',
-                                    minHeight: '20px',
+                                    maxHeight: '20px',
                                     fontSize: '12px',
                                     cursor: 'pointer',
                                 }}
