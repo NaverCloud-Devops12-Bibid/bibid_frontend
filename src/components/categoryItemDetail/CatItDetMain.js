@@ -12,6 +12,12 @@ const CatItDetMain = ({ auctionItem, auctionBidInfo, seller, biddingMember, info
   console.log("== CatItDetMain 실행 ==");
   console.log("입찰하기와 즉시구매 데이터 넘기는 api 만들어라 기본적으로 auctionInfo에 데이터 넣되, 즉시구매는 + 옥션테이블상태변경");
 
+  const bucketName = process.env.REACT_APP_BUCKET_NAME;
+  const formattedBucketName = bucketName.slice(0, 7) + '-' + bucketName.slice(7);
+  const prePath = "https://kr.object.ncloudstorage.com/" + formattedBucketName;
+
+  console.log("prePath :: ", prePath);
+
   // 판매자 정보 더 보기 모달창
   const [sellerModalOpen, setSellerModalOpen] = useState(false);
   const openSellerModal = () => {
@@ -45,10 +51,26 @@ const CatItDetMain = ({ auctionItem, auctionBidInfo, seller, biddingMember, info
 
   // 입찰가 증가 함수
   const increaseBid = (bidIncrement) => {
+    if(auctionItem.auctionStatus === "준비중"){
+      alert("준비중인 경매입니다.");
+      return;
+    }
+    if(auctionItem.auctionStatus === "완료"){
+      alert("완료된 경매입니다.");
+      return;
+    }
     setBidAmount((prevBid) => prevBid + bidIncrement);
   };
   // 입찰가 감소 함수
   const decreaseBid = (bidIncrement) => {
+    if(auctionItem.auctionStatus === "준비중"){
+      alert("준비중인 경매입니다.");
+      return;
+    }
+    if(auctionItem.auctionStatus === "완료"){
+      alert("완료된 경매입니다.");
+      return;
+    }
     setBidAmount((prevBid) => Math.max(prevBid - bidIncrement, parseInt(infoExtension[1]) + parseInt(bidIncrement)));
   };
 
@@ -56,6 +78,14 @@ const CatItDetMain = ({ auctionItem, auctionBidInfo, seller, biddingMember, info
   // 입찰하기 모달창
   const [biddingNowModalOpen, setBiddingNowModalOpen] = useState(false);
   const openBiddingNowModal = () => {
+    if(auctionItem.auctionStatus === "준비중"){
+      alert("준비중인 경매입니다.");
+      return;
+    }
+    if(auctionItem.auctionStatus === "완료"){
+      alert("완료된 경매입니다.");
+      return;
+    }
     setBiddingNowModalOpen(true);
   };
   const closeBiddingNowModal = () => {
@@ -118,6 +148,14 @@ const CatItDetMain = ({ auctionItem, auctionBidInfo, seller, biddingMember, info
   // 즉시구매 모달창
   const [buyingNowModalOpen, setBuyingNowModalOpen] = useState(false);
   const openBuyingNowModal = () => {
+    if(auctionItem.auctionStatus === "준비중"){
+      alert("준비중인 경매입니다.");
+      return;
+    }
+    if(auctionItem.auctionStatus === "완료"){
+      alert("완료된 경매입니다.");
+      return;
+    }
     setBuyingNowModalOpen(true);
   };
   const closeBuyingNowModal = () => {
@@ -182,17 +220,19 @@ const CatItDetMain = ({ auctionItem, auctionBidInfo, seller, biddingMember, info
   // console.log("auctionBidInf1111 : " + auctionBidInfo[1].auctionInfoIndex);
   // console.log("biddingMember 0 " + biddingMember[0].nickname);
   // console.log("biddingMember 1 " + biddingMember[1].nickname);
-  // console.log("allImages : ", auctionImages);
+  console.log("allImages : ", auctionImages);
+  console.log(prePath+auctionImages[0]);
+
 
   return (
     <div className="CID-item-block">
       <div className="CID-bid-item-container">
         {/* 이미지 섹션 */}
         <div className="CID-image-section">
-          <img src={auctionImages[0]} alt="Main Image" className="CID-main-image" />
+          <img src={prePath + auctionImages[0]} alt="Main Image" className="CID-main-image" />
           <div className="CID-thumbnail-container">
             {auctionImages.slice(1).map((imageUrl, index) => (
-              <img key={index} src={imageUrl} alt={`Image ${index + 1}`} className="CID-thumbnail" />
+              <img key={index} src={prePath + imageUrl} alt={`Image ${index + 1}`} className="CID-thumbnail" />
               ))}
           </div>
           {/* 판매자 섹션 */}
@@ -267,10 +307,16 @@ const CatItDetMain = ({ auctionItem, auctionBidInfo, seller, biddingMember, info
         {/* 입찰 섹션 */}
         <div className="CID-bid-section">
           <div className="CID-bid-title">{auctionItem.productName}</div>
-          <div className="CID-price"><span>현재가: {parseInt(infoExtension[1]).toLocaleString()} 원</span></div>
+          <div className="CID-price">
+            <span>
+              {auctionItem.auctionStatus === "완료" ? "마감가 :" : "현재가 :"} {parseInt(infoExtension[1]).toLocaleString()} 원
+            </span>
+          </div>
 
           <div className="CID-bid-details">
-            <p>남은시간: {days}일 {hours}시간 {minutes}분 {seconds} 초</p>
+            <p>
+              {auctionItem.auctionStatus === "완료" ? "마감된 경매입니다." : "남은시간: "+days+"일 "+hours+"시간 "+minutes+"분 "+seconds+"초"}
+            </p>
             <p>경매번호: No.{auctionItem.auctionIndex}</p>
             <p>시작가: {parseInt(auctionItem.startingPrice).toLocaleString()} 원</p>
             <div>
@@ -368,7 +414,7 @@ const CatItDetMain = ({ auctionItem, auctionBidInfo, seller, biddingMember, info
               <h2 className="CID-bidding-now-modal-title">입찰 {auctionItem.auctionStatus}</h2>
               <div className="CID-bidding-now-modal-body">
                 <div className="CID-bidding-now-modal-image">
-                  <img src={auctionImages[0]} alt={`${auctionItem.productName}`} />
+                  <img src={prePath + auctionImages[0]} alt={`${auctionItem.productName}`} />
                 </div>
                 <div className="CID-bidding-now-modal-details">
                   <h3>{auctionItem.productName} 경매</h3>
@@ -394,7 +440,7 @@ const CatItDetMain = ({ auctionItem, auctionBidInfo, seller, biddingMember, info
               <h2 className="CID-bidding-now-modal-title">구매 {auctionItem.auctionStatus}</h2>
                 <div className="CID-bidding-now-modal-body">
                   <div className="CID-bidding-now-modal-image">
-                    <img src={auctionImages[0]} alt={`${auctionItem.productName}`} />
+                    <img src={prePath + auctionImages[0]} alt={`${auctionItem.productName}`} />
                   </div>
                   <div className="CID-bidding-now-modal-details">
                     <h3>{auctionItem.productName} 경매</h3>

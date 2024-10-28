@@ -6,6 +6,10 @@ const CatItDetInfo = ({ auctionNumber, auctionItem, auctionImages }) => {
 
   console.log("== CatItDetInfo 실행 ==")
   
+  const bucketName = process.env.REACT_APP_BUCKET_NAME;
+  const formattedBucketName = bucketName.slice(0, 7) + '-' + bucketName.slice(7);
+  const prePath = "https://kr.object.ncloudstorage.com/" + formattedBucketName;
+  
   if (!auctionItem) {
     return <div>Loading...</div>; // auctionItem + auctionImg 가 없을 때 로딩 메시지를 출력
   }
@@ -30,15 +34,15 @@ const CatItDetInfo = ({ auctionNumber, auctionItem, auctionImages }) => {
         <p> {auctionItem.productDescription}</p>
         <ul style={{ listStyle: 'disc', paddingLeft: '20px' }}>
           <br/>
-          <li>경매 시작일 : {formatDate(startingLocalDateTime)} 시작</li>
+          <li>경매 시작 예정일 : {formatDate(startingLocalDateTime)} 시작</li>
           <br/>
-          <li>경매 마감일 : {formatDate(endingLocalDateTime)} 종료</li>
+          <li>경매 마감 예정일 : {formatDate(endingLocalDateTime)} 종료</li>
           <br/>
           <li style={{ listStyle: 'square', color: '#007bff' }}>연령제한 주의</li>
         </ul>
         <div className="CID-item-img-container">
           {auctionImages.map((imageUrl, index) => (
-                <img key={index} src={imageUrl} alt={`Item ${index}`}/>
+                <img key={index} src={prePath + imageUrl} alt={`Item ${index}`}/>
                 ))}
         </div>
       </div>
