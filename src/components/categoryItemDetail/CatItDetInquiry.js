@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import '../../css/CategoryItemDetail.css';
 import { Modal } from '@mui/material';
 import CatItDetTab from './CatItDetTab';
+import axios from 'axios';
 
-const CatItDetInquiry = () => {
+const CatItDetInquiry = ({ auctionItem, qnAList }) => {
   const [inquiringModalOpen, setInquiringModalOpen] = useState(false);
+
   
   // 입력값 상태 관리
   const [inquiryType, setInquiryType] = useState('');
@@ -25,55 +27,72 @@ const CatItDetInquiry = () => {
       alert('문의 유형, 제목, 내용을 빠짐없이 작성해주세요.');
       return;
     }
-    const data = {
-      type: inquiryType,
-      title: inquiryTitle,
-      content: inquiryContent,
+    const inquiryData = {
+      qnaType: inquiryType,
+      qnaTitle: inquiryTitle,
+      qnaContent: inquiryContent
     };
 
-    console.log('inquiryType: '+ data.type);
-    console.log('inquiryTitle: '+ inquiryTitle);
-    console.log('inquiryContent: '+ inquiryContent);
+    // console.log('inquiryType: ' + inquiryData.qnaType);
+    // console.log('inquiryTitle: ' + inquiryData.qnaTitle);
+    // console.log('inquiryContent: ' + inquiryData.qnaContent);
 
-    try {
-      const response = await fetch('https://localhost:3000/CategoryItemDetail/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
-      
-      if (response.ok) {
-        alert('문의가 성공적으로 접수되었습니다.');
-        closeInquiringModal();
-      } else {
-        alert('문의 접수에 실패했습니다. 다시 시도해 주세요.');
-      }
-    } catch (error) {
-      console.error('Error submitting inquiry:', error);
-      alert('문의 접수 중 오류가 발생했습니다.');
-    }
+    // 백엔드로 데이터 전송
+    axios.post(`http://localhost:8080/auctionDetail/category-item-detail/${auctionItem.auctionIndex}/inquiry`, inquiryData, {
+      headers: {
+        'Content-Type': 'application/json', // 요청의 콘텐츠 타입을 JSON으로 지정
+      },
+      withCredentials: true
+    })
+    .then((response) => {
+      console.log('Success:', response.data); // 성공 시 서버로부터 응답 데이터 출력
+      alert('문의가 완료되었습니다.');
+      closeInquiringModal();
+      window.location.reload();
+    })
+    .catch((error) => {
+      alert("에러가 발생했습니다. 관리자에게 문의해 주세요.")
+      console.error('Error:', error); // 오류 발생 시 오류 메시지 출력
+    });
   };
 
   return (
     <div className="CID-item-inquiry" id="CID-item-inquiry">
-      <CatItDetTab/>      
+      <CatItDetTab />      
       <table>
         <thead>
           <tr>
-            <th>번호</th>
+            <th>문의 번호</th>
             <th>제목</th>
             <th>등록자</th>
             <th>등록일</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td colSpan="4" className="CID-empty-message">
-              등록된 내용이 없습니다.
-            </td>
-          </tr>
+          {Array.isArray(qnAList) && qnAList.length > 0 ? (
+            qnAList.map((record, index) => (
+              <tr key={index}>
+                <td>{qnAList.length - index}</td>
+                <td>{record.qnaTitle}</td>
+                <td>{record.nickname}</td>
+                {/* <td>{(record.regDate).toLocaleString()}</td> */}
+                <td>{new Intl.DateTimeFormat('ko-KR', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric'
+                            // hour: '2-digit',
+                            // minute: '2-digit'
+                          }).format(new Date(record.regDate))}
+                </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="4" className="CID-empty-message">
+                등록된 내용이 없습니다.
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
       <button className="CID-inquiry-button" onClick={openInquiringModal}>
@@ -116,6 +135,7 @@ const CatItDetInquiry = () => {
                 placeholder="제목은 최대 50자까지 입력 가능합니다."
                 value={inquiryTitle}
                 onChange={(e) => setInquiryTitle(e.target.value)}
+                maxLength={50}
               />
 
               <label htmlFor="inquiry-content">문의 내용</label>
@@ -135,6 +155,12 @@ const CatItDetInquiry = () => {
                 onClick={handleSubmit}
               >
                 문의하기
+              </button>
+              <button
+                className="CID-inquiring-modal-close-button"
+                onClick={closeInquiringModal}
+              >
+                닫기
               </button>
             </div>
           </div>

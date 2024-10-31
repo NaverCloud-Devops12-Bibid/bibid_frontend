@@ -6,17 +6,34 @@ import AddBoxIcon from '@mui/icons-material/AddBox';
 import IndeterminateCheckBoxIcon from '@mui/icons-material/IndeterminateCheckBox';
 import { IconButton } from '@mui/material';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { changeSearchCondition, changeSearchKeyword } from '../../slices/search/searchSlice'; // 수정된 액션 이름 사용
+
+
 
 const CatItDetMain = ({ auctionItem, auctionBidInfo, seller, biddingMember, infoExtension, sellerDetailInfo, auctionImages }) => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const handleSellerSearch = () => {
+    // 검색 조건과 키워드 설정
+    dispatch(changeSearchCondition('sellerName'));
+    dispatch(changeSearchKeyword(seller.nickname));
+    
+    // 검색 페이지로 이동
+    navigate('/search');
+};
+
+
 
   console.log("== CatItDetMain 실행 ==");
-  console.log("입찰하기와 즉시구매 데이터 넘기는 api 만들어라 기본적으로 auctionInfo에 데이터 넣되, 즉시구매는 + 옥션테이블상태변경");
 
   const bucketName = process.env.REACT_APP_BUCKET_NAME;
   const formattedBucketName = bucketName.slice(0, 7) + '-' + bucketName.slice(7);
   const prePath = "https://kr.object.ncloudstorage.com/" + formattedBucketName;
 
-  console.log("prePath :: ", prePath);
+  // console.log("prePath :: ", prePath);
 
   // 판매자 정보 더 보기 모달창
   const [sellerModalOpen, setSellerModalOpen] = useState(false);
@@ -47,7 +64,7 @@ const CatItDetMain = ({ auctionItem, auctionBidInfo, seller, biddingMember, info
     if (auctionItem && auctionItem.startingPrice) {
       setBidAmount(parseInt(infoExtension[1]) + parseInt(auctionItem.bidIncrement));
     }
-  }, [auctionItem]); // auctionItem이 변경될 때마다 이 코드가 실행됨
+  }, [auctionItem, infoExtension]); // auctionItem이 변경될 때마다 이 코드가 실행됨
 
   // 입찰가 증가 함수
   const increaseBid = (bidIncrement) => {
@@ -128,6 +145,7 @@ const CatItDetMain = ({ auctionItem, auctionBidInfo, seller, biddingMember, info
       console.log('Success:', response.data); // 성공 시 서버로부터 응답 데이터 출력
       alert('입찰이 성공적으로 전송되었습니다.');
       closeBiddingNowModal();
+      window.location.reload();
     })
     .catch((error) => {
       console.error('Error:', error); // 오류 발생 시 오류 메시지 출력
@@ -191,12 +209,14 @@ const CatItDetMain = ({ auctionItem, auctionBidInfo, seller, biddingMember, info
     axios.post(`http://localhost:8080/auctionDetail/category-item-detail/${auctionItem.auctionIndex}`, buyingData, {
       headers: {
         'Content-Type': 'application/json', // 요청의 콘텐츠 타입을 JSON으로 지정
-      }
+      },
+      withCredentials : true
     })
     .then((response) => {
       console.log('Success:', response.data); // 성공 시 서버로부터 응답 데이터 출력
       alert('즉시 구매가 성공적으로 전송되었습니다.');
       closeBuyingNowModal();
+      window.location.reload();
     })
     .catch((error) => {
       console.error('Error:', error); // 오류 발생 시 오류 메시지 출력
@@ -232,18 +252,23 @@ const CatItDetMain = ({ auctionItem, auctionBidInfo, seller, biddingMember, info
 
         <div className="CID-image-section">
 
-        <img src={auctionImages[0]} alt="Main Image" className="CID-main-image" />
+        <img src={auctionImages[0]} alt="thumbnail" className="CID-main-image" />
         <div className="CID-thumbnail-container">
           {auctionImages.slice(1).map((imageUrl, index) => (
-            <img key={index} src={imageUrl} alt={`Image ${index + 1}`} className="CID-thumbnail" />
+            <img key={index} src={imageUrl} alt={`underThumbnail ${index + 1}`} className="CID-thumbnail" />
             ))}
         </div>
 
           {/* 판매자 섹션 */}
           <div className="CID-merchant-section">
             <div className="CID-merchant-info">
-              <p>판매자: {seller.nickname}</p>
-              <p>{seller.nickname}의 등록된 경매: {parseInt(infoExtension[2])}건</p>
+            <p>
+              판매자: 
+              <span className="CID-hover-link" onClick={handleSellerSearch}>
+                {seller.nickname}
+              </span>
+            </p>
+            <p className="CID-hover-link" onClick={handleSellerSearch}>{seller.nickname}의 등록된 경매: {parseInt(infoExtension[2])}건</p>
             </div>
             <div className="CID-merchant-link">
               <button className='CID-seller-more-info-hvr' onClick={openSellerModal}>판매자 {seller.nickname} 의 정보 더보기</button>

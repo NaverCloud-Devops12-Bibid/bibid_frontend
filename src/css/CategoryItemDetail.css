@@ -656,6 +656,7 @@ p {
   .CID-inquiring-modal-input {
     width: 100%;
     padding: 10px;
+    box-sizing: border-box; /* 패딩과 보더를 포함하여 크기 조정 */
     margin-bottom: 15px;
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -668,7 +669,7 @@ p {
 
   /* 제출 버튼 */
   .CID-inquiring-modal-submit-button {
-    width: 100%;
+    width: 90%;
     padding: 10px;
     background-color: #0033cc;
     color: white;
@@ -676,6 +677,20 @@ p {
     border-radius: 5px;
     font-size: 16px;
     cursor: pointer;
+    display: inline-block;
+    margin-right: 5px;
+  }
+  /* 제출 버튼옆에 닫기버튼 */
+  .CID-inquiring-modal-close-button {
+    width: 9%;
+    padding: 10px;
+    background-color: #0033cc;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    display: inline-block;
   }
 
   .CID-inquiring-modal-submit-button:hover {

@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
-function CatItDetAxios({ setAuctionItem, setAuctionBidInfo, setSeller , setBiddingMember, setInfoExtension, setSellerDetailInfo, setAuctionImages}) {
+function CatItDetAxios({ setAuctionItem, setAuctionBidInfo, setSeller , setBiddingMember, setInfoExtension, setSellerDetailInfo, setAuctionImages, setQnAList}) {
  
   const bucketName = process.env.REACT_APP_BUCKET_NAME;
  
   const { auctionNumber } = useParams(); // URL에서 auctionNumber를 가져옴
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
+
   
   console.log("== CatItDetAxios 실행 ==");
   // console.log("auctionNumber"+auctionNumber);
@@ -17,7 +19,7 @@ function CatItDetAxios({ setAuctionItem, setAuctionBidInfo, setSeller , setBiddi
     axios.get(`http://localhost:8080/auctionDetail/category-item-detail/${auctionNumber}`)
       .then(response => {
         console.log(response.data.item);
-        const { auctionItem, auctionBidInfo, seller, biddingMember, infoExtension, sellerDetailInfo, auctionImages } = response.data.item; // 응답에서 각각의 필드를 추출
+        const { auctionItem, auctionBidInfo, seller, biddingMember, infoExtension, sellerDetailInfo, auctionImages, qnAList } = response.data.item;
         setAuctionItem(auctionItem); // auctionItem 데이터 설정
         // console.log("auctionItem :: " + auctionItem.auctionType);
         
@@ -43,13 +45,21 @@ function CatItDetAxios({ setAuctionItem, setAuctionBidInfo, setSeller , setBiddi
         setAuctionImages(formattedAuctionImages); // URL이 포함된 auctionImages 데이터 설정
         console.log(auctionImages);
 
+        setQnAList(qnAList); // qna 옥션인덱스로 불러오기
+
         setLoading(false);
       })
       .catch(error => {
-        setError(error);
+        // 오류 처리 로직 추가
+        if (error.response && error.response.status === 400) {
+          console.log("잘못된 접근입니다.");
+          navigate('/');
+        } else {
+          setError(error);
+        }
         setLoading(false);
       });
-  }, [auctionNumber, setAuctionItem, setAuctionBidInfo, setSeller, setBiddingMember, setInfoExtension, setSellerDetailInfo, setAuctionImages]);
+  }, [auctionNumber, setAuctionItem, setAuctionBidInfo, setSeller, setBiddingMember, setInfoExtension, setSellerDetailInfo, setAuctionImages, setQnAList]);
 
   if (loading) return <div>Loading..</div>;
   if (error) return <div>Error: {error.message}</div>;
