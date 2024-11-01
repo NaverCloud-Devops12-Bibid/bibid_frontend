@@ -18,7 +18,7 @@ const Slide = styled.ul`
     position: relative;
     width: calc(165px * 20); // ⭐️ (original + clone)의 너비
     animation: autoPlay 15s linear infinite;
-    animation-play-state: ${(props) => (props.isPaused ? 'paused' : 'running')};
+    animation-play-state: ${(props) => (props.$isPaused ? 'paused' : 'running')};
 
     @keyframes autoPlay {
         0% {
@@ -79,7 +79,8 @@ function Conveyor() {
             <h2>마감임박 경매</h2>
             <p>경매 종료까지 시간이 얼마 남지 않은 경매입니다.</p>
             </div>
-            <Slide isPaused={isPaused}
+            <Slide
+                $isPaused={isPaused}
                 onMouseEnter={() => setIsPaused(true)}
                 onMouseLeave={() => setIsPaused(false)}>
                 {bestProducts.concat(bestProducts).map((auction, index) => {
