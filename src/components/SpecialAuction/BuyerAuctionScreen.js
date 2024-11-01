@@ -24,7 +24,7 @@ function BuyerAuctionScreen({
     const fetchChannelInfo = async () => {
       try {
 
-        const response = await axios.get(`http://localhost:8080/specialAuction/channelInfo/${auction.auctionIndex}`, { withCredentials: true });
+        const response = await axios.get(`${process.env.REACT_APP_BACK_SERVER}/specialAuction/channelInfo/${auction.auctionIndex}`, { withCredentials: true });
         const channelInfoDto = response.data.item; 
 
         setStreamingUrl(channelInfoDto.serviceUrlList);

@@ -11,7 +11,7 @@ const MypageAuctionManagement = () => {
   useEffect(() => {
     const fetchMyAuctions = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/mypage/my-auctions', {
+        const response = await axios.get(`${process.env.REACT_APP_BACK_SERVER}/mypage/my-auctions`, {
           withCredentials: true
         });
         console.log(response.data.items);

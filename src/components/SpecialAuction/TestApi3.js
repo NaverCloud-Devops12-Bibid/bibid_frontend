@@ -14,7 +14,7 @@ const TestApi3 = () => {
   const sendNotification = async (endpoint, data) => {
     try {
       const response = await axios.post(
-        `http://localhost:8080/api/notifications/${endpoint}`,
+        `${process.env.REACT_APP_BACK_SERVER}/api/notifications/${endpoint}`,
         data,
         {
           headers: {

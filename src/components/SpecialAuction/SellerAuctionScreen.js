@@ -136,7 +136,7 @@ function SellerAuctionScreen({
     const fetchChannelInfo = async () => {
       try {
         // API 호출로 streaming 정보 가져오기
-        const response = await axios.get(`http://localhost:8080/specialAuction/channelInfo/${auction.auctionIndex}`, { withCredentials: true });
+        const response = await axios.get(`${process.env.REACT_APP_BACK_SERVER}/specialAuction/channelInfo/${auction.auctionIndex}`, { withCredentials: true });
         const channelInfoDto = response.data.item;
 
         // 서버와 스트림 키 업데이트
@@ -195,7 +195,7 @@ function SellerAuctionScreen({
       obs.current.call('GetSceneList')
         .then((response) => {
           const sceneNames = response.scenes.map(scene => scene.name);
-          
+
           // Live Scene이 없을 때만 생성
           if (!sceneNames.includes('Live Scene')) {
             obs.current.call('CreateScene', { sceneName: 'Live Scene' })
@@ -204,7 +204,7 @@ function SellerAuctionScreen({
           } else {
             console.log('Live Scene 이미 존재');
           }
-  
+
           // Waiting Scene이 없을 때만 생성
           if (!sceneNames.includes('Waiting Scene')) {
             obs.current.call('CreateScene', { sceneName: 'Waiting Scene' })
@@ -273,7 +273,7 @@ function SellerAuctionScreen({
 
   const { messages, inputMessage, setInputMessage, sendMessage, currentPrices, participantCounts, bidderNicknames, auctionDetails} = webSocketProps;
   const winnerInfo = auctionDetails[auction.auctionIndex];
-  
+
   const messagesEndRef = useRef(null);
 
   const auctionStartTime = new Date(auction.startingLocalDateTime);
@@ -297,7 +297,7 @@ function SellerAuctionScreen({
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') sendMessage();
   };
-  
+
 
 //   // 마이크 아이콘 클릭 핸들러
 //   const handleMikeToggle = () => {
@@ -357,7 +357,7 @@ function SellerAuctionScreen({
 
   // 백엔드에 경매 상태 및 채널 상태 갱신 요청 함수
   const updateBackendStatusToLive  = () => {
-    axios.post(`http://localhost:8080/specialAuction/startLive/${auction.auctionIndex}`, {}, { withCredentials: true })
+    axios.post(`${process.env.REACT_APP_BACK_SERVER}/specialAuction/startLive/${auction.auctionIndex}`, {}, { withCredentials: true })
       .then(response => {
         console.log('백엔드 경매 및 채널 상태 갱신 성공:', response.data);
       })
@@ -406,7 +406,7 @@ function SellerAuctionScreen({
 
   // 백엔드에 경매 및 채널 상태 종료로 갱신 요청 함수
   const updateBackendStatusToEnd = () => {
-    axios.post(`http://localhost:8080/specialAuction/endLive/${auction.auctionIndex}`, {}, { withCredentials: true })
+    axios.post(`${process.env.REACT_APP_BACK_SERVER}/specialAuction/endLive/${auction.auctionIndex}`, {}, { withCredentials: true })
       .then(response => {
         console.log('백엔드 경매 및 채널 상태 종료로 갱신 성공:', response.data);
       })

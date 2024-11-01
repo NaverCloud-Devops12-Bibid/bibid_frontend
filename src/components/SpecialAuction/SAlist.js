@@ -123,7 +123,7 @@ function SAlist({ activeTab }) {
   const handleAlertButtonClick = async (auction) => {
     try {
       const response = await axios.post(
-        `http://localhost:8080/specialAuction/registerAlarm/${auction.auctionIndex}`,
+        `http://${process.env.REACT_APP_BACK_SERVER}/specialAuction/registerAlarm/${auction.auctionIndex}`,
         {},
         { withCredentials: true }
       );

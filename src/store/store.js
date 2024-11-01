@@ -13,11 +13,13 @@ import specialAuctionSlice from "../slices/specialAuction/specialAuctionSlice";
 import searchSlice from '../slices/search/searchSlice';
 import memberSlice from "../slices/member/memberSlice";
 import notificationSlice from '../slices/notification/notificationSlice';
+import paymentSlice from "../slices/payment/paymentSlice";
 
 
 const reducers = combineReducers({
     memberSlice,
     specialAuctionSlice ,
+    paymentSlice,
     auction: searchSlice,
     notificationSlice,
 });

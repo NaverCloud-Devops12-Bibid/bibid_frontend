@@ -37,7 +37,7 @@ const Mypage_info_update = () => {
 
 	const getMember = useCallback(async () => {
 		try {
-			const response = await axios.get(`http://localhost:8080/mypage`);
+			const response = await axios.get(`${process.env.REACT_APP_BACK_SERVER}/mypage`);
 
 			console.log(response.data.item);
 			if(response.data.item.email && response.data.item.email !== ''){
@@ -269,7 +269,7 @@ const Mypage_info_update = () => {
 
 	const modifyProfile = useCallback(async (formData) => {
 		try {
-			const response = await axios.patch(`http://localhost:8080/mypage/updateProfile`, formData);
+			const response = await axios.patch(`${process.env.REACT_APP_BACK_SERVER}/mypage/updateProfile`, formData);
 			joinForm.password = '';
 
 			if(response.data && response.statusCode === 200){

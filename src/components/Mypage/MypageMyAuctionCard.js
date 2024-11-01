@@ -42,7 +42,7 @@ const MypageMyAuctionCard = ({ auction, onDelete }) => {
 
   const handleDelete = async () => {
     try {
-      await axios.delete(`http://localhost:8080/mypage/my-auctions/${auction.auctionIndex}`, { withCredentials: true });
+      await axios.delete(`${process.env.REACT_APP_BACK_SERVER}/mypage/my-auctions/${auction.auctionIndex}`, { withCredentials: true });
       console.log(auction.auctionIndex);
       onDelete(auction.auctionIndex); // 부모 핸들러 호출
     } catch (error) {

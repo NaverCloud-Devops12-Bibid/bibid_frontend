@@ -16,13 +16,13 @@ const NotificationInitializer = () => {
     useEffect(() => {
         const fetchInitialNotifications = async () => {
             try {
-                const response = await axios.get("http://localhost:8080/auth/checkLogin", {
+                const response = await axios.get(`${process.env.REACT_APP_BACK_SERVER}/auth/checkLogin`, {
                     withCredentials: true,
                 });
 
-                if (response.status === 200 && response.data.item === "ROLE_USER") { 
+                if (response.status === 200 && response.data.item === "ROLE_USER") {
                     try {
-                        const response = await axios.get(`http://localhost:8080/api/notifications/${memberIndex}`, {
+                        const response = await axios.get(`${process.env.REACT_APP_BACK_SERVER}/api/notifications/${memberIndex}`, {
                             withCredentials: true,
                         });
                         dispatch(setNotifications(response.data));

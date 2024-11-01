@@ -19,7 +19,7 @@ const RegistrationForm = () => {
     const fetchMemberInfo = async () => {
       try {
         console.log(memberIndex);
-        const response = await axios.get(`http://localhost:8080/mypage/userInfo/${memberIndex}`);
+        const response = await axios.get(`http://${process.env.REACT_APP_BACK_SERVER}/mypage/userInfo/${memberIndex}`);
         console.log("Fetched member info:", response.data.item);
         setMemberInfo(response.data.item);
       } catch (error) {

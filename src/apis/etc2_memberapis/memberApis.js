@@ -3,7 +3,7 @@ import axios from 'axios';
 
 export const join = createAsyncThunk('members/join', async (member, thunkApi) => {
     try {
-        const response = await axios.post('http://localhost:8080/members/join', member);
+        const response = await axios.post(`${process.env.REACT_APP_BACK_SERVER}/members/join`, member);
 
         return response.data.item;
     } catch (e) {
@@ -13,7 +13,7 @@ export const join = createAsyncThunk('members/join', async (member, thunkApi) =>
 
 export const login = createAsyncThunk('members/login', async (member, thunkApi) => {
     try {
-        const response = await axios.post('http://localhost:8080/members/login', member,
+        const response = await axios.post(`${process.env.REACT_APP_BACK_SERVER}/members/login`, member,
             {
                 withCredentials: true
             });
@@ -26,7 +26,7 @@ export const login = createAsyncThunk('members/login', async (member, thunkApi) 
 
 export const logout = createAsyncThunk('members/logout', async (_, thunkApi) => {
     try {
-        const response = await axios.get(`http://localhost:8080/members/logout`, {
+        const response = await axios.get(`${process.env.REACT_APP_BACK_SERVER}/members/logout`, {
             withCredentials: true
         });
 
@@ -42,7 +42,7 @@ export const findMember = createAsyncThunk(
     async (formData, thunkApi) => {
 
         try {
-            const response = await axios.post(`http://localhost:8080/members/mailSend`, formData)
+            const response = await axios.post(`${process.env.REACT_APP_BACK_SERVER}/members/mailSend`, formData)
 
             return formData.email;
         } catch (e) {
@@ -57,11 +57,10 @@ export const verificationCodeCheck = createAsyncThunk(
     async (formData, thunkApi) => {
 
         try {
-            const response = await axios.post(`http://localhost:8080/members/mailCheck`, {
+            const response = await axios.post(`${process.env.REACT_APP_BACK_SERVER}/members/mailCheck`, {
                 verificationCode: formData.verificationCode
             });
 
-            console.log(formData.verificationCode);
 
             return response.data;
 
@@ -78,7 +77,7 @@ export const findIdByEmail = createAsyncThunk(
     async (formData, thunkApi) => {
 
         try {
-            const response = await axios.post(`http://localhost:8080/members/findByEmail`, {
+            const response = await axios.post(`${process.env.REACT_APP_BACK_SERVER}/members/findByEmail`, {
                 email: formData.email
             });
 
@@ -86,7 +85,6 @@ export const findIdByEmail = createAsyncThunk(
 
         } catch (e) {
             console.log("오류 발생");
-            console.log(formData);
             return thunkApi.rejectWithValue(e);
         }
     });
@@ -97,7 +95,7 @@ export const modifyPasswd = createAsyncThunk(
     async (formData, thunkApi) => {
 
         try {
-            const response = await axios.post(`http://localhost:8080/members/modifyPasswd`,
+            const response = await axios.post(`${process.env.REACT_APP_BACK_SERVER}/members/modifyPasswd`,
                 null,
                 {
                     params: {
@@ -119,7 +117,7 @@ export const kakaoJwtToken = createAsyncThunk(
     'auth/kakaoJwtToken',
     async (code, thunkApi) => {
         try {
-            const response = await axios.get(`http://localhost:8080/auth/kakao/callback`, {
+            const response = await axios.get(`${process.env.REACT_APP_BACK_SERVER}/auth/kakao/callback`, {
                 params: {
                     code: code // 쿼리 파라미터로 코드 전달
                 },
@@ -138,7 +136,7 @@ export const naverJwtToken = createAsyncThunk(
     'auth/naverJwtToken',
     async (code, thunkApi) => {
         try {
-            const response = await axios.get(`http://localhost:8080/auth/naver/callback`, {
+            const response = await axios.get(`${process.env.REACT_APP_BACK_SERVER}/auth/naver/callback`, {
                 params: {
                     code: code // 쿼리 파라미터로 코드 전달
                 },
@@ -157,7 +155,7 @@ export const googleJwtToken = createAsyncThunk(
     'auth/googleJwtToken',
     async (accessToken, thunkApi) => {
         try {
-            const response = await axios.post(`http://localhost:8080/auth/google/callback`, {
+            const response = await axios.post(`${process.env.REACT_APP_BACK_SERVER}/auth/google/callback`, {
                 access_token: accessToken // 액세스 토큰을 JSON 바디로 전송
             }, {
                 withCredentials: true
@@ -176,7 +174,7 @@ export const checkLogin = createAsyncThunk(
     'auth/checkLogin',
     async (_, thunkApi) => {
         try {
-            const response = await axios.get(`http://localhost:8080/auth/checkLogin`, {
+            const response = await axios.get(`${process.env.REACT_APP_BACK_SERVER}/auth/checkLogin`, {
                 withCredentials: true
             });
 
@@ -193,7 +191,7 @@ export const checkLogin = createAsyncThunk(
         'members/uploadProfileImage',
         async (formData, thunkApi) => {
             try {
-                const response = await axios.post(`http://localhost:8080/mypage/profile-image`, formData, {
+                const response = await axios.post(`${process.env.REACT_APP_BACK_SERVER}/mypage/profile-image`, formData, {
                     headers: { 'Content-Type': 'multipart/form-data' },
                     withCredentials: true
                 });
@@ -211,7 +209,7 @@ export const chargeAccount = createAsyncThunk(
     'account/chargeAccount',
     async (dummyData, thunkApi) => {
       try {
-        const response = await axios.post(`http://localhost:8080/account/charge`, dummyData, {
+        const response = await axios.post(`${process.env.REACT_APP_BACK_SERVER}/account/charge`, dummyData, {
           withCredentials: true
         });
         return response.data.item; // 충전 결과 반환
@@ -227,7 +225,7 @@ export const chargeAccount = createAsyncThunk(
     'account/exchangeAccount',
     async (dummyData, thunkApi) => {
       try {
-        const response = await axios.post(`http://localhost:8080/account/exchange`, dummyData, {
+        const response = await axios.post(`${process.env.REACT_APP_BACK_SERVER}/account/exchange`, dummyData, {
           withCredentials: true
         });
         return response.data.item; // 환전 결과 반환
@@ -243,7 +241,7 @@ export const chargeAccount = createAsyncThunk(
     'account/buyAuction',
     async (dummyData, thunkApi) => {
       try {
-        const response = await axios.post(`http://localhost:8080/account/buy`, dummyData, {
+        const response = await axios.post(`${process.env.REACT_APP_BACK_SERVER}/account/buy`, dummyData, {
           withCredentials: true
         });
         return response.data.item; // 구매 결과 반환
@@ -259,7 +257,7 @@ export const chargeAccount = createAsyncThunk(
     'account/sellAuction',
     async (dummyData, thunkApi) => {
       try {
-        const response = await axios.post(`http://localhost:8080/account/sell`, dummyData, {
+        const response = await axios.post(`${process.env.REACT_APP_BACK_SERVER}/account/sell`, dummyData, {
           withCredentials: true
         });
         return response.data.item; // 판매 결과 반환
@@ -275,7 +273,7 @@ export const chargeAccount = createAsyncThunk(
     'member/fetchMember',
     async (_, thunkApi) => {
         try {
-          const response = await axios.get(`http://localhost:8080/members/fetchMember`, {
+          const response = await axios.get(`${process.env.REACT_APP_BACK_SERVER}/members/fetchMember`, {
             withCredentials: true
           });
           return response.data.item; // 판매 결과 반환

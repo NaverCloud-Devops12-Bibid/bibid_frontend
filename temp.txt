@@ -1,7 +1,7 @@
 import SockJS from "sockjs-client";
 import { Stomp } from "@stomp/stompjs";
 
-const socket = new SockJS("http://localhost:8080/ws-notifications");
+const socket = new SockJS("http://localhost/ws-notifications");
 const stompClient = Stomp.over(socket);
 
 stompClient.connect({}, () => {
@@ -39,7 +39,7 @@ public class PurchaseService {
     }
 }
 
-const socket = new SockJS("http://localhost:8080/ws-notifications");
+const socket = new SockJS("http://localhost/ws-notifications");
 const stompClient = Stomp.over(socket);
 
 stompClient.connect({}, () => {

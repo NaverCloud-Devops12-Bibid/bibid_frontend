@@ -22,7 +22,7 @@ const MypageAuctionCard = ({auction}) => {
   const handleConfirmPurchase = async () => {
     try {
       const response = await axios.post(
-        'http://localhost:8080/account/confirm', // API 경로
+        `${process.env.REACT_APP_BACK_SERVER}/account/confirm`, // API 경로
         auction, // auction 객체 전송
         { withCredentials: true } // 인증 정보 포함
       );

@@ -15,7 +15,7 @@ const DetailedCategory_Elec = () => {
 
   const fetchBestProducts = useCallback(async () => {
     try {
-      const response = await axios.get(`http://localhost:8080/auction/category/전자제품`, {
+      const response = await axios.get(`${process.env.REACT_APP_BACK_SERVER}/auction/category/전자제품`, {
         params: { page: page }
       });
 

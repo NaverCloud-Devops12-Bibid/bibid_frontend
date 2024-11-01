@@ -161,7 +161,7 @@ const JoinTwo = () => {
                 return;
             }
 
-            const response = await axios.post('http://localhost:8080/members/memberId-check', {
+            const response = await axios.post(`${process.env.REACT_APP_BACK_SERVER}/members/memberId-check`, {
                 memberId: joinForm.memberId
             });
 
@@ -190,7 +190,7 @@ const JoinTwo = () => {
                 return;
             }
 
-            const response = await axios.post('http://localhost:8080/members/nickname-check', {
+            const response = await axios.post(`${process.env.REACT_APP_BACK_SERVER}/members/nickname-check`, {
                 nickname: joinForm.nickname
             });
 

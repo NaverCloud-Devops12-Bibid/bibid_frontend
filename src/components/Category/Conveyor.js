@@ -50,6 +50,7 @@ const handleItemClick = (auctionIndex) => {
     window.location.href = `/category-itemdetail/${auctionIndex}`;
   };
 
+
 function Conveyor() {
     const [bestProducts, setBestProducts] = useState([]);
     const [isPaused, setIsPaused] = useState(false);
@@ -57,7 +58,7 @@ function Conveyor() {
     useEffect(() => {
         const fetchBestProducts = async () => {
             try {
-                const response = await axios.get('http://localhost:8080/auction/conveyor');
+                const response = await axios.get(`${process.env.REACT_APP_BACK_SERVER}/auction/conveyor`);
                 if (response.data.statusCode !== 200) {
                     throw new Error('데이터를 가져오는 데 실패했습니다.');
                 }

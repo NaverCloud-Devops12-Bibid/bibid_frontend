@@ -13,7 +13,7 @@ const MypageProfileBox = () => {
   useEffect(() => {
     const fetchBiddedAuctions = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/mypage/bidded-auctions', {
+            const response = await axios.get(`${process.env.REACT_APP_BACK_SERVER}/mypage/bidded-auctions`, {
                 withCredentials: true // withCredentials 설정
             });
             setBiddedAuctions(response.data.items); // 서버에서 가져온 입찰 경매 리스트 설정

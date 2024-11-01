@@ -43,7 +43,7 @@ const useAuctionWebSocket = (auctionIndex, isChatClosed) => {
   // 1분 내 메시지 불러오기
   const loadLastMinuteMessages = async () => {
     try {
-      const response = await axios.get(`http://localhost:8080/api/chat/lastMinute/${auctionIndex}`, { withCredentials: true });
+      const response = await axios.get(`${process.env.REACT_APP_BACK_SERVER}/api/chat/lastMinute/${auctionIndex}`, { withCredentials: true });
       console.log("최근 1분 메시지 불러오기:", response.data);
       setMessages((prevMessages) => ({
         ...prevMessages,
@@ -66,7 +66,7 @@ const useAuctionWebSocket = (auctionIndex, isChatClosed) => {
     const connectAuctionWebSocket = async () => {
       await loadLastMinuteMessages();
 
-      const auctionSocket = new SockJS('http://localhost:8080/ws-auctions', null, { withCredentials: true });
+      const auctionSocket = new SockJS(`${process.env.REACT_APP_BACK_SERVER}/ws-auctions`, null, { withCredentials: true });
       const auctionClient = new Client({
         webSocketFactory: () => auctionSocket,
         onConnect: () => {

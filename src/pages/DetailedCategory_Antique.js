@@ -15,7 +15,7 @@ const DetailedCategory_Antique = () => {
 
   const fetchBestProducts = useCallback(async () => {
     try {
-      const response = await axios.get(`http://localhost:8080/auction/category/골동품`, {
+      const response = await axios.get(`${process.env.REACT_APP_BACK_SERVER}/auction/category/골동품`, {
         params: { page: page }
       });
 

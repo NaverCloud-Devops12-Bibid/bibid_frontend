@@ -12,7 +12,7 @@ function MemberInitializer() {
     useEffect(() => {
         const initializeMember = async () => {
             try {
-                const response = await axios.get("http://localhost:8080/auth/checkLogin", {
+                const response = await axios.get(`${process.env.REACT_APP_BACK_SERVER}/auth/checkLogin`, {
                     withCredentials: true,
                 });
 

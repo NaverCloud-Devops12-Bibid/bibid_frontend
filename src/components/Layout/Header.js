@@ -90,30 +90,35 @@ const Header = () => {
 
     const oauthType = useSelector(state => state.memberSlice.oauthType);
     const checkLoginState = useSelector(state => state.memberSlice.checkLoginState);
+    const role = useSelector(state => state.memberSlice.role);
 
     useEffect(() => {
 
+        console.log(checkLoginState);
+
         dispatch(checkLogin());
 
-        if (checkLoginState === "ROLE_USER") {
+        if (role === "ROLE_USER") {
             setToken(true);
-        } else if (checkLoginState === "notLogin") {
+        } else if (role === "notLogin") {
             setToken(false);
         }
 
     }, [dispatch, checkLoginState]);
 
-
-
-
     const handleLogout = useCallback(async () => {
 
-        await dispatch(logout());
+        try {
+            await dispatch(logout());
+            setToken(false);
+        } catch (e) {
+            alert("로그아웃 실패");
+        }
 
         if (oauthType === "Kakao") {
             const kakaoLogoutParams = {
                 client_id: "29e81fa9fda262c573f312af9934fa5c",
-                logout_redirect_uri: "http://localhost:3000/"
+                logout_redirect_uri: process.env.REACT_APP_FRONT_SERVER
             }
 
             const url = 'https://kauth.kakao.com/oauth/logout';

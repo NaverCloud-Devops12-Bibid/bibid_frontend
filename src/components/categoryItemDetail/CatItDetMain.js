@@ -121,7 +121,7 @@ const CatItDetMain = ({ auctionItem, auctionBidInfo, seller, biddingMember, info
     console.log('구매 예상가: ' + biddingData.userBiddingTotalPrice);
 
     // 백엔드로 데이터 전송
-    axios.post(`http://localhost:8080/auctionDetail/category-item-detail/${auctionItem.auctionIndex}`, biddingData, {
+    axios.post(`${process.env.REACT_APP_BACK_SERVER}/auctionDetail/category-item-detail/${auctionItem.auctionIndex}`, biddingData, {
       headers: {
         'Content-Type': 'application/json', // 요청의 콘텐츠 타입을 JSON으로 지정
       },
@@ -186,7 +186,7 @@ const CatItDetMain = ({ auctionItem, auctionBidInfo, seller, biddingMember, info
     console.log('즉시구매 결재금액: ' + buyingData.userBiddingTotalPrice);
 
     // 백엔드로 데이터 전송
-    axios.post(`http://localhost:8080/auctionDetail/category-item-detail/${auctionItem.auctionIndex}`, buyingData, {
+    axios.post(`${process.env.REACT_APP_BACK_SERVER}/auctionDetail/category-item-detail/${auctionItem.auctionIndex}`, buyingData, {
       headers: {
         'Content-Type': 'application/json', // 요청의 콘텐츠 타입을 JSON으로 지정
       }
