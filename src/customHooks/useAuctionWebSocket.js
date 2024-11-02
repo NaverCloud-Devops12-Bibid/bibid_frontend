@@ -64,7 +64,7 @@ const useAuctionWebSocket = (auctionIndex, isChatClosed) => {
     if (!auctionIndex || isChatClosed) return;
 
     const connectAuctionWebSocket = async () => {
-      await loadLastMinuteMessages();
+      // await loadLastMinuteMessages();
 
       const auctionSocket = new SockJS('http://localhost:8080/ws-auctions', null, { withCredentials: true });
       const auctionClient = new Client({
