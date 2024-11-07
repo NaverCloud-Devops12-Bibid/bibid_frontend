@@ -3,6 +3,7 @@ import SockJS from 'sockjs-client';
 import { Client } from '@stomp/stompjs';
 import { useDispatch, useSelector } from 'react-redux';
 import { addNotification } from '../slices/notification/notificationSlice';
+import { fetchMember } from '../apis/etc2_memberapis/memberApis';
 
 const useNotificationWebSocket = () => {
   const [notifications, setNotifications] = useState([]);
@@ -23,6 +24,14 @@ const useNotificationWebSocket = () => {
           const newNotification = JSON.parse(message.body);
           setNotifications((prev) => [...prev, newNotification]); // 새로운 알림 추가
           dispatch(addNotification(newNotification)); // Redux 상태에 추가
+
+          if (newNotification.notificationType === 'HIGHER_BID') {
+            dispatch(fetchMember()); 
+          }
+
+          if (newNotification.notificationType === 'AUCTION_WIN') {
+            dispatch(fetchMember()); 
+          }
         });
       },
       onStompError: (error) => {

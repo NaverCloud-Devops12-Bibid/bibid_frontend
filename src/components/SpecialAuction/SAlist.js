@@ -49,6 +49,7 @@ function SAlist({activeTab}) {
 
     // 팝업 열기/닫기 함수
     const togglePopup = (popupName, value) => setPopupState((prev) => ({...prev, [popupName]: value}));
+    const [hasScreenOpened, setHasScreenOpened] = useState(false); 
 
     // 옥션 리스트 렌더링 함수
     const renderAuctions = () => {
@@ -79,8 +80,8 @@ function SAlist({activeTab}) {
                             alertText="* 알림은 경매 시작 30분 전에 발송됩니다."
                             handleGoButtonClick={() => handleGoButtonClick(auction)}
                             handleAlertButtonClick={() => {
-                                togglePopup('showAlertPopup', true);
-                                handleAlertButtonClick(auction);
+                                setSelectedAuction(auction);
+                                togglePopup('showAlertPopup', true); 
                             }}
                         />
                     );
@@ -136,11 +137,11 @@ function SAlist({activeTab}) {
 
     const navi = useNavigate();
     // 알림 신청 처리
-    const handleAlertButtonClick = async (auction) => {
+    const handleAlertRegisterButtonClick = async (auction) => {
         try {
             if (checkLoginState) {
                 const response = await axios.post(
-                    `http://${process.env.REACT_APP_BACK_SERVER}/specialAuction/registerAlarm/${auction.auctionIndex}`,
+                    `${process.env.REACT_APP_BACK_SERVER}/specialAuction/registerAlarm/${auction.auctionIndex}`,
                     {},
                     {withCredentials: true}
                 );
@@ -187,12 +188,13 @@ function SAlist({activeTab}) {
                 if (now >= auctionStartTime && popupState.showBuyerPopup) {
                     togglePopup('showBuyerPopup', false);
                     togglePopup('showBuyerAuctionScreen', true);
+                    setHasScreenOpened(true); 
                 }
             }, 1000);
 
             return () => clearInterval(interval);
         }
-    }, [selectedAuction, hasAuctionEnded]);
+    }, [selectedAuction, hasAuctionEnded, hasScreenOpened]);
 
     // 구매자 팝업 닫기 + 웹 소켓 연결 해제
     const closeBuyerPopupAndDisconnectWebSocket = () => {
@@ -213,7 +215,7 @@ function SAlist({activeTab}) {
             {renderAuctions()}
             {/* 팝업 컴포넌트들 */}
             {popupState.showAlertPopup && selectedAuction &&
-                <AlertPopup auction={selectedAuction} handleClosePopup={() => togglePopup('showAlertPopup', false)}/>}
+                <AlertPopup auction={selectedAuction} handleAlertRegisterButtonClick = {handleAlertRegisterButtonClick} handleClosePopup={() => togglePopup('showAlertPopup', false)}/>}
             {popupState.showBuyerPopup && !popupState.showBuyerAuctionScreen && (
                 <BuyerWaitPopup
                     handleClosePopup={() => togglePopup('showBuyerPopup', false)}

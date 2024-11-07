@@ -179,6 +179,7 @@ const useAuctionWebSocket = (auctionIndex, isChatClosed) => {
                 [auctionIndex]: {
                     winnerIndex: auctionInfo.winnerIndex,
                     winningBid: auctionInfo.winningBid,
+                    winnerNickname : auctionInfo.winnerNickname
                 },
             }));
         }

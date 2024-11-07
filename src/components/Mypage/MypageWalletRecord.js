@@ -6,7 +6,10 @@ const iconMap = {
     '충전': '/images/chargeIcon.svg',
     '환전': '/images/exchangeIcon.svg',
     '판매': '/images/sellIcon.svg',
-    '구매': '/images/buyIcon.svg'
+    '구매': '/images/buyIcon.svg',
+    '입찰': '/images/bid_icon.svg',
+    '환불': '/images/refund_icon.svg',
+    '낙찰': '/images/bid_icon.svg'
   };
 
 export const MypageWalletRecord = ({ record }) => {
@@ -17,31 +20,60 @@ export const MypageWalletRecord = ({ record }) => {
   const isExchange = record.useType === '환전';
   const isSale = record.useType === '판매';
   const isPurchase = record.useType === '구매';
+  const isBid = record.useType === '입찰';
+  const isRefund = record.useType === '환불';
+  const isWinningBid = record.useType === '낙찰';
 
   const formatNumber = (number) => {
     return Number(number).toLocaleString();
   };
 
-  // 메시지 및 스타일
+  // // 메시지 및 스타일
+  // const message = isCharge
+  //   ? `요청하신 ${formatNumber(record.changeAccount)}원 충전 처리가 완료되었습니다.`
+  //   : isExchange
+  //   ? `요청하신 ${formatNumber(record.changeAccount)}원 환전 처리가 완료되었습니다.`
+  //   : isSale
+  //   // ? `등록하신 "${record.productName} ${record.auctionType}" 상품이 판매 및 배송 처리가 완료되었습니다.`
+  //   // : `"${record.productName}" 상품을 "${record.auctionType}"로 구매 및 배송 처리가 완료되었습니다.`;
+  //   ? `등록하신 "${record.auctionType} ${record.auctionType}" 상품이 판매 및 배송 처리가 완료되었습니다.`
+  //   : `${record.auctionType} - '${record.productName}'상품의 입찰이 완료되었습니다.`;
+
   const message = isCharge
-    ? `요청하신 ${formatNumber(record.changeAccount)}원 충전 처리가 완료되었습니다.`
-    : isExchange
-    ? `요청하신 ${formatNumber(record.changeAccount)}원 환전 처리가 완료되었습니다.`
-    : isSale
-    // ? `등록하신 "${record.productName} ${record.auctionType}" 상품이 판매 및 배송 처리가 완료되었습니다.`
-    // : `"${record.productName}" 상품을 "${record.auctionType}"로 구매 및 배송 처리가 완료되었습니다.`;
-    ? `등록하신 "${record.auctionType} ${record.auctionType}" 상품이 판매 및 배송 처리가 완료되었습니다.`
-    : `${record.auctionType} - '${record.productName}'상품의 입찰이 완료되었습니다.`;
+  ? `요청하신 ${formatNumber(record.changeAccount)}원 충전 처리가 완료되었습니다.`
+  : isExchange
+  ? `요청하신 ${formatNumber(record.changeAccount)}원 환전 처리가 완료되었습니다.`
+  : isSale
+  ? `등록하신 "${record.productName} ${record.auctionType}" 상품이 판매 및 배송 처리가 완료되었습니다.`
+  : isBid
+  ? `${record.auctionType} - '${record.productName}' 상품의 입찰이 완료되었습니다.`
+  : isRefund
+  ? `'${record.productName}' 상품의 환불 처리가 완료되었습니다.`
+  : isWinningBid
+  ? `'${record.productName}' 상품의 낙찰이 완료되었습니다.`
+  : `알 수 없는 거래 유형입니다.`;
+
+    // const changeAmountColor = isCharge
+    // ? 'blue'
+    // : isExchange
+    // ? 'red'
+    // : isSale
+    // ? 'blue'
+    // : 'red';
 
     const changeAmountColor = isCharge
-    ? 'blue'
-    : isExchange
-    ? 'red'
-    : isSale
-    ? 'blue'
-    : 'red';
+  ? 'blue'
+  : isExchange
+  ? 'red'
+  : isSale
+  ? 'blue'
+  : isBid || isWinningBid
+  ? 'red'
+  : isRefund
+  ? 'blue'
+  : 'red';
 
-  const balanceLabel = isCharge || isSale ? '총 잔액' : '나머지 금액';
+  const balanceLabel = isCharge || isSale || isRefund ? '총 잔액' : '나머지 금액';
   const balanceDisplay = `₩ ${formatNumber(record.afterBalance)}`;
 
   const formatDate = (dateString) => {

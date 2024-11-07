@@ -1,30 +1,45 @@
-import React, {useState, useEffect, useRef} from 'react';
-import {getFormattedRemainingTime} from '../../util/utils';
+import React, { useState, useEffect, useRef } from 'react';
+import { getFormattedRemainingTime } from '../../util/utils';
 import SAsellerSteamingBox from './SAsellerStreamingBox';
 import '../../css/SpecialAuction/SAitem.css';
 import axios from 'axios';
 import VideoSection from './VideoSection';
-import {OBSWebSocket} from 'obs-websocket-js';
+import { OBSWebSocket } from 'obs-websocket-js';
 
 function SellerAuctionScreen({
-                                 webSocketProps, auction, remainingTime, closeSellerPage
-                             }) {
+    webSocketProps, 
+    auction, 
+    remainingTime, 
+    closeSellerPage
+}) {
+    const isDevelopment = process.env.NODE_ENV === 'development';
 
-    // 대기 화면 이미지 경로 (React public 폴더의 이미지 URL)
-    const waitingImagePath = 'http://localhost:3000/images/SA_wait_image.jpg';
-    const endingImagePath = 'http://localhost:3000/images/SA_auction_end_image.jpg';
+    // 이미지 경로 설정
+    const waitingImagePath = isDevelopment
+        ? 'http://localhost:3000/images/SA_wait_image.jpg'  // 개발 환경
+        : 'https://bibid.shop/images/SA_wait_image.jpg';    // 배포 환경
 
-    const obs = useRef(null);
+    const endingImagePath = isDevelopment
+        ? 'http://localhost:3000/images/SA_auction_end_image.jpg'  // 개발 환경
+        : 'https://bibid.shop/images/SA_auction_end_image.jpg';    // 배포 환경
+
+    const gifUrl = isDevelopment
+        ? 'http://localhost:3000/images/bid_donation.gif'  // 개발 환경
+        : 'https://bibid.shop/images/bid_donation.gif';    // 배포 환경
+
+    const obs = useRef(null); // OBS WebSocket 참조
 
     const [isObsConnected, setIsObsConnected] = useState(false); // OBS 소켓 관리
     const [isStreaming, setIsStreaming] = useState(false); // 스트리밍 상태 관리
 
+    // OBS WebSocket 연결
     const connectOBS = () => {
         obs.current = new OBSWebSocket();
         obs.current.connect('ws://localhost:4455') // OBS WebSocket 서버로 연결
             .then(() => {
                 setIsObsConnected(true); // 연결 성공 시 상태 업데이트
                 checkStreamingStatus(); // 연결 후 스트리밍 상태 확인
+                listenToStreamEvents();
             })
             .catch(err => {
                 console.error('OBS WebSocket 연결 실패:', err);
@@ -32,17 +47,13 @@ function SellerAuctionScreen({
             });
     };
 
-    // OBS의 현재 스트리밍 상태 확인 (OBS WebSocket v5)
+    // OBS의 현재 스트리밍 상태 확인
     const checkStreamingStatus = () => {
         if (obs.current) {
-            // 스트리밍 아웃풋 상태 확인
-            obs.current.call('GetOutputStatus', {outputName: 'simple_stream'}) // 아웃풋 이름을 'simple_stream'으로 지정
+            obs.current.call('GetOutputStatus', { outputName: 'simple_stream' }) // 아웃풋 이름을 'simple_stream'으로 지정
                 .then(response => {
-                    if (response.outputActive) { // outputActive가 true면 스트리밍 중
-                        setIsStreaming(true); // 스트리밍 중인 상태로 업데이트
-                    } else {
-                        setIsStreaming(false); // 스트리밍이 아닌 상태로 업데이트
-                    }
+                    setIsStreaming(response.outputActive); // 스트리밍 상태 업데이트
+                    lastStreamingStatus.current = response.outputActive; 
                 })
                 .catch(err => {
                     console.error('OBS 스트리밍 상태 확인 실패:', err);
@@ -52,70 +63,62 @@ function SellerAuctionScreen({
 
     const lastStreamingStatus = useRef(null); // 이전 상태를 저장
 
+    // 스트리밍 상태 변경 이벤트 리스너
     const listenToStreamEvents = () => {
         if (obs.current) {
             obs.current.on('StreamStateChanged', (data) => {
                 const isCurrentlyStreaming = data.outputActive;
-
-                // 현재 상태와 이전 상태가 다를 때만 로그 출력 및 상태 업데이트
-                if (lastStreamingStatus.current !== isCurrentlyStreaming) {
-                    if (isCurrentlyStreaming) {
-                        setIsStreaming(true);
-                    } else {
-                        setIsStreaming(false);
-                    }
-
-                    // 현재 상태를 마지막 상태로 업데이트
-                    lastStreamingStatus.current = isCurrentlyStreaming;
-                }
+                setIsStreaming(isCurrentlyStreaming); // 현재 스트리밍 상태 업데이트
+                lastStreamingStatus.current = isCurrentlyStreaming; // 마지막 상태 업데이트
             });
         }
     };
 
+    // 입찰 정보와 이미지를 OBS에 표시
     const displayBidWithImageOnOBS = (bidAmount, bidderNickname) => {
         if (isObsConnected) {
+            console.log('OBS에 연결되었습니다.');
 
-            const gifUrl = 'http://localhost:3000/images/bid_donation.gif';
-
-            // 먼저 이미지 소스를 추가
+            // 이미지 소스 추가
             obs.current.call('CreateInput', {
-                sceneName: 'Live Scene',  // 방송에서 사용하는 장면 이름
+                sceneName: 'Live Scene',  // OBS에서 사용하는 장면 이름
                 inputName: 'Bid Browser Overlay',  // 이미지 소스 이름
                 inputKind: 'browser_source',  // 이미지 소스 종류
                 inputSettings: {
                     url: gifUrl,  // GIF를 포함한 HTML 페이지 URL
-                    width: 500,  // 이미지 가로 크기 (적절히 조정)
-                    height: 200,  // 이미지 세로 크기 (적절히 조정)
-                    // border: none,
+                    width: 500,  // 이미지 가로 크기
+                    height: 200  // 이미지 세로 크기
                 }
             }).then(() => {
-
-                // 이미지 추가 후 텍스트 소스를 그 위에 추가
+                // 텍스트 소스 추가
                 return obs.current.call('CreateInput', {
-                    sceneName: 'Live Scene',  // 방송에서 사용하는 장면 이름
-                    inputName: 'Bid Text Overlay',  // 텍스트 소스 이름
-                    inputKind: 'text_ft2_source_v2',  // 텍스트 소스 종류
+                    sceneName: 'Live Scene',
+                    inputName: 'Bid Text Overlay',
+                    inputKind: 'text_ft2_source_v2',
                     inputSettings: {
                         text: `${bidderNickname} 님이 ${bidAmount} 를 입찰하였습니다.`,
-                        font: {face: 'Malgun Gothic', size: 48},
+                        font: { face: 'Malgun Gothic', size: 48 },
                         color: 0xFFFFFFFF,
                         backgroundColor: 0x000000FF,
-                        align: 'center',
+                        align: 'center'
                     }
+                })
+                }).then(() => {
+                    // 일정 시간 후 텍스트와 이미지 소스 제거
+                    setTimeout(() => {
+                        console.log('텍스트 및 이미지 소스를 제거합니다.');
+                        obs.current.call('RemoveInput', { inputName: 'Bid Text Overlay' });
+                        obs.current.call('RemoveInput', { inputName: 'Bid Browser Overlay' });
+                    }, 10000);  // 10초 후 제거
+                }).catch(err => {
+                    console.error('OBS에 이미지 또는 텍스트 추가 실패:', err);
                 });
-            }).then(() => {
+            } else {
+                console.error('OBS에 연결되지 않았습니다.');
+            }
+        };
 
-                // 일정 시간 후 텍스트와 이미지 소스 모두 제거
-                setTimeout(() => {
-                    obs.current.call('RemoveInput', {inputName: 'Bid Text Overlay'});
-                    obs.current.call('RemoveInput', {inputName: 'Bid Browser Overlay'});
-                }, 10000);  // 5초 후 제거
-            }).catch(err => {
-                console.error('OBS에 이미지 또는 텍스트 추가 실패:', err);
-            });
-        }
-    };
-
+    // 채널 정보 상태 관리
     const [channelInfo, setChannelInfo] = useState({
         serverURL: '',
         streamKey: '',
@@ -127,8 +130,8 @@ function SellerAuctionScreen({
     useEffect(() => {
         const fetchChannelInfo = async () => {
             try {
-                // API 호출로 streaming 정보 가져오기
-                const response = await axios.get(`${process.env.REACT_APP_BACK_SERVER}/specialAuction/channelInfo/${auction.auctionIndex}`, {withCredentials: true});
+                // API 호출로 스트리밍 정보 가져오기
+                const response = await axios.get(`${process.env.REACT_APP_BACK_SERVER}/specialAuction/channelInfo/${auction.auctionIndex}`, { withCredentials: true });
                 const channelInfoDto = response.data.item;
 
                 // 서버와 스트림 키 업데이트
@@ -150,11 +153,11 @@ function SellerAuctionScreen({
     useEffect(() => {
         connectOBS(); // 컴포넌트 마운트 시 OBS 연결
 
-        if (obs.current) {
-            // StreamStateChanged 이벤트 리스너가 중복 등록되지 않도록 설정
-            obs.current.removeAllListeners('StreamStateChanged');
-            listenToStreamEvents();
-        }
+        // if (obs.current) {
+        //     // StreamStateChanged 이벤트 리스너가 중복 등록되지 않도록 설정
+        //     obs.current.removeAllListeners('StreamStateChanged');
+        //     listenToStreamEvents();
+        // }
 
         // 컴포넌트 언마운트 시 WebSocket 연결 해제 및 이벤트 리스너 제거
         return () => {
@@ -163,6 +166,12 @@ function SellerAuctionScreen({
             }
         };
     }, []);
+
+    useEffect(() => {
+        if (isObsConnected) {
+            checkStreamingStatus(); // 연결 성공 시 스트리밍 상태 확인
+        }
+    }, [isObsConnected]);
 
     // OBS 연결 성공 시 장면 세팅
     useEffect(() => {
@@ -189,13 +198,13 @@ function SellerAuctionScreen({
 
                     // Live Scene이 없을 때만 생성
                     if (!sceneNames.includes('Live Scene')) {
-                        obs.current.call('CreateScene', {sceneName: 'Live Scene'})
+                        obs.current.call('CreateScene', { sceneName: 'Live Scene' })
                             .catch((err) => console.error('Live Scene 생성 실패:', err));
                     }
 
                     // Waiting Scene이 없을 때만 생성
                     if (!sceneNames.includes('Waiting Scene')) {
-                        obs.current.call('CreateScene', {sceneName: 'Waiting Scene'})
+                        obs.current.call('CreateScene', { sceneName: 'Waiting Scene' })
                             .then(() => {
                                 return obs.current.call('CreateInput', {
                                     sceneName: 'Waiting Scene',
@@ -211,7 +220,7 @@ function SellerAuctionScreen({
 
                     // Ending Scene이 없을 때만 생성
                     if (!sceneNames.includes('Ending Scene')) {
-                        obs.current.call('CreateScene', {sceneName: 'Ending Scene'})
+                        obs.current.call('CreateScene', { sceneName: 'Ending Scene' })
                             .then(() => {
                                 console.log('Ending Scene 생성 완료');
                                 // Waiting Scene에 이미지 소스 추가
@@ -231,8 +240,7 @@ function SellerAuctionScreen({
                                     inputName: 'Winner Info Text',  // 텍스트 소스 이름
                                     inputKind: 'text_ft2_source_v2',  // 텍스트 소스 종류
                                     inputSettings: {
-                                        // text: `${winnerNickname}님이 ${winningBid}원에 낙찰되었습니다!`,  // 텍스트 내용
-                                        font: {face: 'Malgun Gothic', size: 48},
+                                        font: { face: 'Malgun Gothic', size: 48 },
                                         color: 0xFFFFFFFF,  // 텍스트 색상 (흰색)
                                         backgroundColor: 0x000000FF,  // 배경 색상 (검은색)
                                         align: 'center',  // 텍스트 정렬
@@ -278,7 +286,7 @@ function SellerAuctionScreen({
     // 메시지 스크롤을 맨 아래로 이동
     useEffect(() => {
         if (messagesEndRef.current) {
-            messagesEndRef.current.scrollIntoView({behavior: 'smooth'});
+            messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
         }
     }, [messages]);
 
@@ -286,12 +294,6 @@ function SellerAuctionScreen({
     const handleKeyPress = (e) => {
         if (e.key === 'Enter') sendMessage();
     };
-
-
-//   // 마이크 아이콘 클릭 핸들러
-//   const handleMikeToggle = () => {
-//     setIsMikeOn((prev) => !prev); // 마이크 상태를 토글
-//   };
 
     useEffect(() => {
         const now = new Date();
@@ -326,7 +328,7 @@ function SellerAuctionScreen({
     const startStreaming = () => {
         if (obs.current && isObsConnected) {
             // 먼저 Live Scene으로 전환
-            obs.current.call('SetCurrentProgramScene', {sceneName: 'Live Scene'})
+            obs.current.call('SetCurrentProgramScene', { sceneName: 'Live Scene' })
                 .then(() => {
                     // 장면 전환 후 방송 시작
                     return obs.current.call('StartStream');
@@ -344,7 +346,7 @@ function SellerAuctionScreen({
 
     // 백엔드에 경매 상태 및 채널 상태 갱신 요청 함수
     const updateBackendStatusToLive = () => {
-        axios.post(`${process.env.REACT_APP_BACK_SERVER}/specialAuction/startLive/${auction.auctionIndex}`, {}, {withCredentials: true})
+        axios.post(`${process.env.REACT_APP_BACK_SERVER}/specialAuction/startLive/${auction.auctionIndex}`, {}, { withCredentials: true })
             .catch(error => {
                 console.error('백엔드 상태 갱신 실패:', error);
             });
@@ -353,7 +355,7 @@ function SellerAuctionScreen({
     // 방송 일시 정지 - 대기 화면으로 전환
     const pauseStreaming = () => {
         if (obs.current && isObsConnected && isStreaming) {
-            obs.current.call('SetCurrentProgramScene', {'sceneName': 'Waiting Scene'})
+            obs.current.call('SetCurrentProgramScene', { 'sceneName': 'Waiting Scene' })
                 .catch(err => console.error('OBS 대기 화면 전환 실패:', err));
         }
     };
@@ -361,8 +363,16 @@ function SellerAuctionScreen({
     // 방송 재개 - 원래 장면으로 복귀
     const resumeStreaming = () => {
         if (obs.current && isObsConnected && isStreaming) {
-            obs.current.call('SetCurrentProgramScene', {'sceneName': 'Live Scene'})
+            obs.current.call('SetCurrentProgramScene', { 'sceneName': 'Live Scene' })
                 .catch(err => console.error('OBS 방송 장면 전환 실패:', err));
+        }
+    };
+
+    // 경매 종료
+    const stopAuction = () => {
+        if (obs.current && isObsConnected && isStreaming) {
+            obs.current.call('SetCurrentProgramScene', { 'sceneName': 'Ending Scene' })
+                .catch(err => console.error('OBS 대기 화면 전환 실패:', err));
         }
     };
 
@@ -383,7 +393,7 @@ function SellerAuctionScreen({
 
     // 백엔드에 경매 및 채널 상태 종료로 갱신 요청 함수
     const updateBackendStatusToEnd = () => {
-        axios.post(`${process.env.REACT_APP_BACK_SERVER}/specialAuction/endLive/${auction.auctionIndex}`, {}, {withCredentials: true})
+        axios.post(`${process.env.REACT_APP_BACK_SERVER}/specialAuction/endLive/${auction.auctionIndex}`, {}, { withCredentials: true })
             .catch(error => {
                 console.error('백엔드 종료 상태 갱신 실패:', error);
             });
@@ -400,13 +410,14 @@ function SellerAuctionScreen({
                             <button onClick={startStreaming}>경매 시작</button>
                             <button onClick={pauseStreaming}>경매 일시 정지</button>
                             <button onClick={resumeStreaming}>경매 재개</button>
-                            <button onClick={stopStreaming}>경매 종료</button>
+                            <button onClick={stopAuction}>경매 종료</button>
+                            <button onClick={stopStreaming}>방송 종료</button>
                         </div>
                         {winnerInfo && (
-                            <div>
-                                <h3>낙찰자 정보</h3>
-                                <p>낙찰자 ID: {winnerInfo.winnerIndex}</p>
-                                <p>낙찰 금액: {winnerInfo.winningBid}원</p>
+                            <div className='SAstreamingBttnBox'>
+                                <button>낙찰자 정보</button>
+                                <button>낙찰자: {winnerInfo.winnerNickname}</button>
+                                <button>낙찰 금액: {winnerInfo.winningBid}원</button>
                             </div>
                         )}
                     </div>
@@ -418,7 +429,7 @@ function SellerAuctionScreen({
                                         {/* isStreaming 상태에 따라 UI를 다르게 렌더링 */}
                                         {isStreaming ? (
                                             // OBS 방송이 시작된 경우, HLS 스트리밍을 VideoSection을 통해 재생
-                                            <VideoSection streamingUrl={channelInfo.streamingUrl}/>
+                                            <VideoSection streamingUrl={channelInfo.streamingUrl} />
                                         ) : (
                                             // OBS 방송이 시작되지 않은 경우 대기 중 화면을 표시
                                             <div
@@ -441,7 +452,7 @@ function SellerAuctionScreen({
                                         <h2>{auction.productName}</h2>
                                         <div className='SAsellerAuctionDetailsBox'>
                                             <div className='SAsellerAuctionContentsTitle'>
-                                                <p dangerouslySetInnerHTML={{__html: remainingText}}></p>
+                                                <p dangerouslySetInnerHTML={{ __html: remainingText }}></p>
                                                 <p>현재가</p>
                                                 <p>경매 시작가</p>
                                                 <p>입찰단위</p>
@@ -465,7 +476,7 @@ function SellerAuctionScreen({
                                     <p id='SAsellerStreamingNote'>* 경매 시간이 되면 자동으로 스트리밍을 시작합니다.</p>
                                     <p id='SAsellerStreamingNoteContent'>실시간 스트리밍을 시작하려면 스트리밍 소프트웨어에서 동영상 전송을 시작하세요.</p>
                                 </div>
-                                <SAsellerSteamingBox channelInfo={channelInfo}/>
+                                <SAsellerSteamingBox channelInfo={channelInfo} />
                             </div>
 
                             {/* Chat Section */}
@@ -476,10 +487,10 @@ function SellerAuctionScreen({
                                             {webSocketProps.messages[auction?.auctionIndex]?.map((msg, index) => (
                                                 <li key={index}>
                                                     <em>{formatTime(msg.sendTime)}</em> <strong
-                                                    style={{color: msg.color}}>{msg.senderNickname}:</strong> {msg.chatMessage}
+                                                        style={{ color: msg.color }}>{msg.senderNickname}:</strong> {msg.chatMessage}
                                                 </li>
                                             )) || <li>메시지가 없습니다.</li>}
-                                            <div ref={messagesEndRef}/>
+                                            <div ref={messagesEndRef} />
                                         </ul>
                                     </div>
                                 </div>
@@ -497,7 +508,7 @@ function SellerAuctionScreen({
                         </div>
                     </div>
                     <button className="SAsllerTotalBoxCloseButton" onClick={closeSellerPage}>
-                        <img src='/images/white_close_button_icon.svg' alt="close button"/>
+                        <img src='/images/white_close_button_icon.svg' alt="close button" />
                     </button>
                 </div>
             </div>

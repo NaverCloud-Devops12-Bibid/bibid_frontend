@@ -11,7 +11,6 @@ const MypageWalletBox = () => {
 
   const accountDto = useSelector((state) => state.memberSlice.accountDto);
 
-
   // 충전 
   const handleChargeAccount = async () => {
     const dummyData = {

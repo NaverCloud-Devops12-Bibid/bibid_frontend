@@ -9,8 +9,9 @@ import axios from 'axios';
 import PlusIcon from '../../images/+_icon.svg';
 import MinusIcon from '../../images/-_icon.svg';
 import loadingImage from '../../images/로딩화면.gif'
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
+import { fetchMember } from '../../apis/etc2_memberapis/memberApis';
 
 
 const CatItDetMain = ({
@@ -26,6 +27,7 @@ const CatItDetMain = ({
     const [mainImage, setMainImage] = useState(null);
     const [thumbnails, setThumbnails] = useState([]);
     const [currentIndex, setCurrentIndex] = useState(0);
+    const dispatch = useDispatch();
 
     // auctionImages가 업데이트될 때 mainImage를 설정
     useEffect(() => {
@@ -152,6 +154,7 @@ const CatItDetMain = ({
             })
                 .then((response) => {
                     alert('입찰이 성공적으로 전송되었습니다.');
+                    dispatch(fetchMember()); 
                     closeBiddingNowModal();
                     window.location.href = `/category-itemdetail/${auctionItem.auctionIndex}`;
                 })

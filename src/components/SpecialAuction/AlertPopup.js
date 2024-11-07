@@ -1,6 +1,6 @@
 import React from 'react';
 
-function AlertPopup({ auction, handleClosePopup }) {
+function AlertPopup({ auction, handleClosePopup, handleAlertRegisterButtonClick }) {
 
   return (
     <div className="SAalertOverlay">
@@ -15,7 +15,11 @@ function AlertPopup({ auction, handleClosePopup }) {
         <p>
           <small>* 경매 시작 1일 전과 30분 전에 이메일과 해당 사이트 알림을 통해서 전달됩니다.</small>
         </p>
-        <button onClick={handleClosePopup}>확인</button>
+        <button onClick={ () => {
+            handleClosePopup();
+            handleAlertRegisterButtonClick(auction);
+          }
+        }>확인</button>
       </div>
     </div>
   );

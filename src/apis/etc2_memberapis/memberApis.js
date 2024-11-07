@@ -271,7 +271,6 @@ export const chargeAccount = createAsyncThunk(
     }
   );
 
-  // app.js 초기화시 멤버 상태변수 초기화
   export const fetchMember = createAsyncThunk(
     'member/fetchMember',
     async (_, thunkApi) => {
@@ -286,5 +285,4 @@ export const chargeAccount = createAsyncThunk(
         }
       }
   );
-
 
