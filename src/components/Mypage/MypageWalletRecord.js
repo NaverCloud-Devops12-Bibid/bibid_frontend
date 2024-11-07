@@ -8,8 +8,8 @@ const iconMap = {
     '판매': '/images/sellIcon.svg',
     '구매': '/images/buyIcon.svg',
     '입찰': '/images/bid_icon.svg',
-    '환불': '/images/refund_icon.svg',
-    '낙찰': '/images/bid_icon.svg'
+    '반환': '/images/refund_icon.svg',
+    '낙찰': '/images/success_auction_icon.svg'
   };
 
 export const MypageWalletRecord = ({ record }) => {
@@ -21,7 +21,7 @@ export const MypageWalletRecord = ({ record }) => {
   const isSale = record.useType === '판매';
   const isPurchase = record.useType === '구매';
   const isBid = record.useType === '입찰';
-  const isRefund = record.useType === '환불';
+  const isRefund = record.useType === '반환';
   const isWinningBid = record.useType === '낙찰';
 
   const formatNumber = (number) => {
@@ -48,7 +48,7 @@ export const MypageWalletRecord = ({ record }) => {
   : isBid
   ? `${record.auctionType} - '${record.productName}' 상품의 입찰이 완료되었습니다.`
   : isRefund
-  ? `'${record.productName}' 상품의 환불 처리가 완료되었습니다.`
+  ? `'${record.productName}' 상품의 입찰 반환 처리가 완료되었습니다.`
   : isWinningBid
   ? `'${record.productName}' 상품의 낙찰이 완료되었습니다.`
   : `알 수 없는 거래 유형입니다.`;

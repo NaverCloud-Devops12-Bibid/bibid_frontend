@@ -371,6 +371,11 @@
     align-items: center;
 }
 
+.Mypage_WalletCardLeft img{
+    width: 70px;
+    height: 70px;
+}
+
 .Mypage_WalletCardRight {
     display: flex;
     flex-direction: column;
