@@ -125,8 +125,6 @@ const CheckBoxComponent = ({checked, setChecked, onCheckedChange}) => {
                             </Box>
                         </Modal>
                     ))}
-
-
                 </Box>
             </DemoPaper>
         </CheckBoxBlock>

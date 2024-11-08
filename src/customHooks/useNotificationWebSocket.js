@@ -3,7 +3,7 @@ import SockJS from 'sockjs-client';
 import { Client } from '@stomp/stompjs';
 import { useDispatch, useSelector } from 'react-redux';
 import { addNotification } from '../slices/notification/notificationSlice';
-import { fetchMember } from '../apis/memberapis/memberApis';
+import { fetchMember } from '../apis/member/memberApis';
 
 const useNotificationWebSocket = () => {
   const [notifications, setNotifications] = useState([]);

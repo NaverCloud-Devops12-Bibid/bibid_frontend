@@ -3,7 +3,7 @@ import {useNavigate} from "react-router-dom";
 import React, {useCallback, useState} from "react";
 import {Button} from "@mui/material";
 import CheckBoxComponent from "../../components/join/CheckBoxComponent";
-import {oauthLogin} from "../../apis/memberapis/memberApis";
+import {oauthLogin} from "../../apis/member/memberApis";
 import {useDispatch, useSelector} from "react-redux";
 
 const JoinBlock = styled.div`

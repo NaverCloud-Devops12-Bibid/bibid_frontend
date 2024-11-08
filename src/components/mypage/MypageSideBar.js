@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { uploadProfileImage } from '../../apis/memberapis/memberApis';
+import { uploadProfileImage } from '../../apis/member/memberApis';
 import '../../css/Mypage/Mypage.css';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';

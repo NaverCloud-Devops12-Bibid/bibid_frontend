@@ -5,13 +5,11 @@ import ButtonComponent from "../../components/join/ButtonComponent";
 import {useNavigate} from "react-router-dom";
 import {Button, Container, Grid, InputAdornment, Menu, MenuItem, TextField, Typography} from "@mui/material";
 import {Visibility, VisibilityOff} from '@mui/icons-material';
-import {ChakraProvider, Button as ChakraButton, useDisclosure as CharkraUseDisclosure} from "@chakra-ui/react";
+import {ChakraProvider, useDisclosure as CharkraUseDisclosure} from "@chakra-ui/react";
 import SearchAddressModal from "../../components/join/SearchAddressModal";
 import axios from "axios";
 import {useDispatch} from "react-redux";
-import {join} from "../../apis/memberapis/memberApis"
-
-
+import {join} from "../../apis/member/memberApis"
 
 const JoinBlock = styled.div`
     display: flex;
@@ -41,87 +39,88 @@ const JoinTwo = () => {
     const [showHelperText, setShowHelperText] = useState(true);
     const [showMemberPw, setShowMemberPw] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);
+    const [inputAddressValue, setInputAddressValue] = useState('');
+    const [detailAddressValue, setDetailAddressValue] = useState('');
+    const [showDetailAddressInput, setShowDetailAddressInput] = useState(false);
 
     const dispatch = useDispatch();
     const navi = useNavigate();
 
     const changeTextField = useCallback((e) => {
-                const {name, value} = e.target;
+        const {name, value} = e.target;
 
-                setJoinForm((prevForm) => ({
-                    ...prevForm,
-                    [name]: value
-                }));
+        setJoinForm((prevForm) => ({
+            ...prevForm,
+            [name]: value
+        }));
 
-                // 비밀번호 입력 시 helperText 숨기기
-                if (name === 'memberPw' && value) {
-                    setShowHelperText(false);
-                } else if (name === 'memberPw' && !value) {
-                    setShowHelperText(true);
-                }
+        // 비밀번호 입력 시 helperText 숨기기
+        if (name === 'memberPw' && value) {
+            setShowHelperText(false);
+        } else if (name === 'memberPw' && !value) {
+            setShowHelperText(true);
+        }
 
-                if (e.target.name === 'memberId') {
-                    setMemberIdChk(false);
-                    document.querySelector("#memberId-check-btn").removeAttribute('disabled');
-                    return;
-                }
+        if (e.target.name === 'memberId') {
+            setMemberIdChk(false);
+            document.querySelector("#memberId-check-btn").removeAttribute('disabled');
+            return;
+        }
 
-                if (e.target.name === 'nickname') {
-                    setNicknameChk(false);
-                    document.querySelector("#nickname-check-btn").removeAttribute('disabled');
-                    return;
-                }
+        if (e.target.name === 'nickname') {
+            setNicknameChk(false);
+            document.querySelector("#nickname-check-btn").removeAttribute('disabled');
+            return;
+        }
 
-                if (e.target.name === 'memberPw') {
-                    if (e.target.value === joinForm.memberPwCheck) {
-                        setMemberPwChk(true);
-                        document.querySelector("#memberPw-check-success").style.display = 'block';
-                        document.querySelector("#memberPw-check-fail").style.display = 'none';
-                    } else {
-                        setMemberPwChk(false);
-                        document.querySelector("#memberPw-check-success").style.display = 'none';
-                        document.querySelector("#memberPw-check-fail").style.display = 'block';
-                    }
-                }
+        if (e.target.name === 'memberPw') {
+            if (e.target.value === joinForm.memberPwCheck) {
+                setMemberPwChk(true);
+                document.querySelector("#memberPw-check-success").style.display = 'block';
+                document.querySelector("#memberPw-check-fail").style.display = 'none';
+            } else {
+                setMemberPwChk(false);
+                document.querySelector("#memberPw-check-success").style.display = 'none';
+                document.querySelector("#memberPw-check-fail").style.display = 'block';
+            }
+        }
 
-                if (e.target.name === 'memberPwCheck') {
-                    if (e.target.value === joinForm.memberPw) {
-                        setMemberPwChk(true);
-                        document.querySelector("#memberPw-check-success").style.display = 'block';
-                        document.querySelector("#memberPw-check-fail").style.display = 'none';
-                    } else {
-                        setMemberPwChk(false);
-                        document.querySelector("#memberPw-check-success").style.display = 'none';
-                        document.querySelector("#memberPw-check-fail").style.display = 'block';
-                    }
-                }
+        if (e.target.name === 'memberPwCheck') {
+            if (e.target.value === joinForm.memberPw) {
+                setMemberPwChk(true);
+                document.querySelector("#memberPw-check-success").style.display = 'block';
+                document.querySelector("#memberPw-check-fail").style.display = 'none';
+            } else {
+                setMemberPwChk(false);
+                document.querySelector("#memberPw-check-success").style.display = 'none';
+                document.querySelector("#memberPw-check-fail").style.display = 'block';
+            }
+        }
 
-                // 휴대전화 포맷팅
-                if (name === 'memberPnum') {
-                    // 숫자만 추출
-                    const cleanedValue = value.replace(/\D/g, '');
+        // 휴대전화 포맷팅
+        if (name === 'memberPnum') {
+            // 숫자만 추출
+            const cleanedValue = value.replace(/\D/g, '');
 
-                    // 포맷에 맞게 수정
-                    let formattedValue = '';
-                    if (cleanedValue.length < 3) {
-                        formattedValue = cleanedValue;
-                    } else if (cleanedValue.length < 7) {
-                        formattedValue = `${cleanedValue.slice(0, 3)}-${cleanedValue.slice(3)}`;
-                    } else {
-                        formattedValue = `${cleanedValue.slice(0, 3)}-${cleanedValue.slice(3, 7)}-${cleanedValue.slice(7, 11)}`;
-                    }
+            // 포맷에 맞게 수정
+            let formattedValue = '';
+            if (cleanedValue.length < 3) {
+                formattedValue = cleanedValue;
+            } else if (cleanedValue.length < 7) {
+                formattedValue = `${cleanedValue.slice(0, 3)}-${cleanedValue.slice(3)}`;
+            } else {
+                formattedValue = `${cleanedValue.slice(0, 3)}-${cleanedValue.slice(3, 7)}-${cleanedValue.slice(7, 11)}`;
+            }
 
-                    setJoinForm((prevForm) => ({
-                        ...prevForm,
-                        [name]: formattedValue,
-                        memberPnum: cleanedValue, // 실제 저장할 전화번호 (DB에 저장할 값)
-                    }));
-                    return;
-                }
+            setJoinForm((prevForm) => ({
+                ...prevForm,
+                [name]: formattedValue,
+                memberPnum: cleanedValue, // 실제 저장할 전화번호 (DB에 저장할 값)
+            }));
+            return;
+        }
 
-            }, [joinForm]
-        )
-    ;
+    }, [joinForm]);
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -146,12 +145,9 @@ const JoinTwo = () => {
         handleClose();
     };
 
-
-
     const toggleShowMemberPw = () => {
         setShowMemberPw((prev) => !prev);
     };
-
 
     const memberIdCheck = useCallback(async () => {
         try {
@@ -294,34 +290,26 @@ const JoinTwo = () => {
         return;
     }, [validateMemberPw]);
 
-
-// ㅁ 주소창
     const {
         isOpen: isSearchAddressOpen,
         onOpen: onSearchAddressOpen,
         onClose: onSearchAddressClose,
     } = CharkraUseDisclosure();
 
-    const [inputAddressValue, setInputAddressValue] = useState('');
-    const [detailAddressValue, setDetailAddressValue] = useState(''); // 상세주소 상태 추가
-    const [showDetailAddressInput, setShowDetailAddressInput] = useState(false);
-
     const onCompletePost = (data) => {
 
-        const fullAddress = data.address; // 선택한 주소
-        setInputAddressValue(fullAddress); // 상태 업데이트
-        setDetailAddressValue(''); // 상세주소 초기화
-        onSearchAddressClose(); // 모달 닫기
-        setShowDetailAddressInput(true); // 상세주소 입력란 표시
+        const fullAddress = data.address;
+        setInputAddressValue(fullAddress);
+        setDetailAddressValue('');
+        onSearchAddressClose();
+        setShowDetailAddressInput(true);
 
-        // joinForm 업데이트
         setJoinForm((prevForm) => ({
             ...prevForm,
             memberAddress: fullAddress
         }));
     };
 
-    // 상세주소 입력 시 joinForm 업데이트
     const handleDetailAddressChange = (e) => {
         setDetailAddressValue(e.target.value);
         setJoinForm((prevForm) => ({
@@ -329,7 +317,6 @@ const JoinTwo = () => {
             addressDetail: `${e.target.value}`.trim()
         }));
     };
-
 
     return (
         <JoinBlock>
@@ -527,8 +514,6 @@ const JoinTwo = () => {
                                                         onCompletePost={onCompletePost}
                                                     />
                                                 )}
-
-
                                             </ChakraProvider>
                                         </div>
                                     ),

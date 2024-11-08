@@ -60,7 +60,8 @@ function SellerInfoPopup({ auction, handleClosePopup }) {
                         <td>{sellerInfoDto.businessClassification}</td>
                     </tr>
                     <tr>
-                        <td>사업자등록번호</td>
+                        <td>사업
+                            자등록번호</td>
                         <td>{sellerInfoDto.businessRegistrationNum}</td>
                     </tr>
                     <tr>

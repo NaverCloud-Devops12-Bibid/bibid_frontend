@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { chargeAccount, exchangeAccount, buyAuction, sellAuction } from '../../apis/memberapis/memberApis'
+import { chargeAccount, exchangeAccount, buyAuction, sellAuction } from '../../apis/member/memberApis'
 
 const TestApi2 = () => {
   const dispatch = useDispatch();

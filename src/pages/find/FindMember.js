@@ -15,7 +15,7 @@ import '../../css/Login.css';
 import styled from "styled-components";
 import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {fetchMemberId, findIdByEmail, findMember, verificationCodeCheck} from "../../apis/memberapis/memberApis";
+import {fetchMemberId, findIdByEmail, findMember, verificationCodeCheck} from "../../apis/member/memberApis";
 
 const FindBlock = styled.div`
     display: flex;
@@ -124,8 +124,6 @@ const FindMember = () => {
             }
         };
 
-        // const memberId = useSelector((state) => state.memberSlice.memberId);
-
         const handleVerification = useCallback(async (e) => {
             e.preventDefault();
 
@@ -139,7 +137,7 @@ const FindMember = () => {
                     {
                         alert("가입되지 않은 회원입니다. 회원가입을 진행해 주세요.");
                         navi("/login");
-                    } else  // db에 이메일이 있을 때
+                    } else
                     {
                         alert(`사용자가 가입한 아이디는 '${response.payload.item}'입니다. 비밀번호를 새로 설정하고 싶으면 버튼을 클릭해주세요.`);
                         setVerificationButtonVisible(false);
@@ -282,7 +280,7 @@ const FindMember = () => {
                                 fullWidth
                                 onClick={handleFindPasswd}
                             >
-                                비밀번호 찾기
+                                비밀번호 재설정
                             </Button>
                         )}
                     </Container>

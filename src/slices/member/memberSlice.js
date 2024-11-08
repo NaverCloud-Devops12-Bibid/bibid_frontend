@@ -17,7 +17,7 @@ import {
     buyAuction,
     sellAuction,
     fetchMember
-} from '../../apis/memberapis/memberApis';
+} from '../../apis/member/memberApis';
 
 const memberSlice = createSlice({
     name: 'members',
@@ -43,8 +43,11 @@ const memberSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder.addCase(join.fulfilled, (state, action) => {
-            alert(`${action.payload.memberId}님 가입 축하드립니다.`);
-            return state;
+
+            return {
+                ...state,
+                memberId: action.payload.memberId
+            }
         });
         builder.addCase(join.rejected, (state, action) => {
             alert('에러가 발생했습니다.');
@@ -279,14 +282,14 @@ const memberSlice = createSlice({
                 token: action.payload.token,
                 profileImageDto : action.payload.profileImageDto,
                 accountDto : action.payload.accountDto,
-                isLogin: true, 
+                isLogin: true,
             };
         });
         builder.addCase(fetchMember.rejected, (state, action) => {
             alert("에러가 발생했습니다.");
             return state;
         });
-        
+
 
     }
 });

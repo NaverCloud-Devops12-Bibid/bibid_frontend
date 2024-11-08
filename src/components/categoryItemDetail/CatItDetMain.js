@@ -11,7 +11,7 @@ import MinusIcon from '../../images/-_icon.svg';
 import loadingImage from '../../images/로딩화면.gif'
 import {useDispatch, useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
-import { fetchMember } from '../../apis/memberapis/memberApis';
+import { fetchMember } from '../../apis/member/memberApis';
 
 
 const CatItDetMain = ({

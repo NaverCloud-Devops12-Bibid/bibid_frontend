@@ -4,7 +4,7 @@ import {Visibility, VisibilityOff} from "@mui/icons-material";
 import styled from "styled-components";
 import ButtonComponent from "../../components/join/ButtonComponent";
 import {useNavigate} from "react-router-dom";
-import {modifyPasswd} from "../../apis/memberapis/memberApis";
+import {modifyPasswd} from "../../apis/member/memberApis";
 import {useDispatch} from "react-redux";
 
 const FindBlock = styled.div`

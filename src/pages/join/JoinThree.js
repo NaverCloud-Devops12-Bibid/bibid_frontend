@@ -2,7 +2,7 @@ import {Container, Typography, Button} from '@mui/material';
 import styled from "styled-components";
 import Circle from "../../components/join/Circle";
 import {useDispatch, useSelector} from "react-redux";
-import {fetchMemberId} from "../../apis/memberapis/memberApis";
+import {fetchMemberId} from "../../apis/member/memberApis";
 import {useEffect, useState} from "react";
 import joinOkIcon from "../../images/join_ok_icon.svg"
 
@@ -17,12 +17,10 @@ const JoinBlock = styled.div`
     position: relative;
 `;
 
-
 const JoinThree = () => {
 
         const [activeStep, setActiveStep] = useState(2);
         const memberId = useSelector((state) => state.memberSlice.memberId);
-
         const dispatch = useDispatch();
 
         return (

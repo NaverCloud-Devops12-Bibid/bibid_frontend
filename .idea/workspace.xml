@@ -4,116 +4,33 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ccdb97fb-022c-4a08-8185-2614232732f2" name="Changes" comment="main 폴더명 통일(2)">
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2024__11__7___4_43__Changes_.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2024__11__7__오후_4_43_[Changes]/shelved.patch" afterDir="false" />
+    <list default="true" id="ccdb97fb-022c-4a08-8185-2614232732f2" name="Changes" comment="main 폴더명 통일(3)">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/ProductApi.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/apis/product/ProductApi.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/apis/SpecialAuction/SAapis.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/apis/specialAuction/SAapis.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/apis/etc2_memberapis/memberApis.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/apis/memberapis/memberApis.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/apis/payment/paymentApis.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/apis/toss/paymentApi.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Category/BestProduct.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/category/BestProduct.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Category/BestProduct_Clothing.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/category/BestProduct_Clothing.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Category/BestProduct_Elec.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/category/BestProduct_Elec.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Category/BestProduct_Hob.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/category/BestProduct_Hob.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Category/CategoryMenu.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/category/CategoryMenu.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Category/Conveyor.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/category/Conveyor.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Category/ProductLine.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/category/ProductLine.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Category/ProductLineForSearch.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/category/ProductLineForSearch.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Layout/Alarm.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/layout/Alarm.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Layout/Footer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/layout/Footer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Layout/Header.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/layout/Header.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Mainpage/CarouselBanner.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/mainpage/CarouselBanner.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Mypage/MypageAuctionBox.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/mypage/MypageAuctionBox.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Mypage/MypageAuctionCard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/mypage/MypageAuctionCard.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Mypage/MypageAuctionManagement.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/mypage/MypageAuctionManagement.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Mypage/MypageAuctionProcessLine.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/mypage/MypageAuctionProcessLine.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Mypage/MypageMyAuctionCard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/mypage/MypageMyAuctionCard.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Mypage/MypageProfileBox.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/mypage/MypageProfileBox.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Mypage/MypageProfileModifyBox.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/mypage/MypageProfileModifyBox.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Mypage/MypageSideBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/mypage/MypageSideBar.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Mypage/MypageWalletBox.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/mypage/MypageWalletBox.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Mypage/MypageWalletRecord.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/mypage/MypageWalletRecord.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Mypage/MypageWalletRecordBox.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/mypage/MypageWalletRecordBox.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Mypage/Mypage_bids_history.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/mypage/Mypage_bids_history.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Mypage/Mypage_bids_progress.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/mypage/Mypage_bids_progress.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Mypage/Mypage_info.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/mypage/Mypage_info.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Mypage/Mypage_info_update.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/mypage/Mypage_info_update.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Mypage/Mypage_interest_bids_detail.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/mypage/Mypage_interest_bids_detail.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Mypage/Mypage_qna.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/mypage/Mypage_qna.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Mypage/Mypage_sidebar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/mypage/Mypage_sidebar.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Mypage/Mypage_wallet_management.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/mypage/Mypage_wallet_management.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Search/HeaderSearchBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/search/HeaderSearchBar.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Search/SearchBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/search/SearchBar.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Search/SearchResults.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/search/SearchResults.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/SpecialAuction/AlertPopup.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/specialAuction/AlertPopup.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/SpecialAuction/AuctionEndPopup.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/specialAuction/AuctionEndPopup.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/SpecialAuction/BidConfirmationPopup.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/specialAuction/BidConfirmationPopup.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/SpecialAuction/BuyerAuctionScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/specialAuction/BuyerAuctionScreen.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/SpecialAuction/BuyerWaitPopup.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/specialAuction/BuyerWaitPopup.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/SpecialAuction/CheckNcloudApi.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/specialAuction/CheckNcloudApi.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/SpecialAuction/SAitem.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/specialAuction/SAitem.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/SpecialAuction/SAlist.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/specialAuction/SAlist.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/SpecialAuction/SAsellerStreamingBox.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/specialAuction/SAsellerStreamingBox.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/SpecialAuction/SAstreamingSettingContent.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/specialAuction/SAstreamingSettingContent.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/SpecialAuction/SAtab.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/specialAuction/SAtab.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/SpecialAuction/SellerAuctionScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/specialAuction/SellerAuctionScreen.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/SpecialAuction/SellerInfoPopup.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/specialAuction/SellerInfoPopup.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/SpecialAuction/TestApi.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/specialAuction/TestApi.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/SpecialAuction/TestApi2.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/specialAuction/TestApi2.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/SpecialAuction/TestApi3.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/specialAuction/TestApi3.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/SpecialAuction/VideoSection.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/specialAuction/VideoSection.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/SpecialAuction/VideoSectionOriginal.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/specialAuction/VideoSectionOriginal.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/SpecialAuction/ViewerList.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/specialAuction/ViewerList.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/apis/memberapis/memberApis.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/apis/member/memberApis.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/categoryItemDetail/CatItDetMain.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/categoryItemDetail/CatItDetMain.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/etc2_join/ButtonComponent.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/join/ButtonComponent.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/etc2_join/CheckBoxComponent.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/join/CheckBoxComponent.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/etc2_join/CheckBoxModalContent.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/join/CheckBoxModalContent.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/etc2_join/Circle.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/join/Circle.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/etc2_join/SearchAddressModal.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/join/SearchAddressModal.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/css/toss.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/join/CheckBoxComponent.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/join/CheckBoxComponent.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/layout/Header.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/layout/Header.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/mypage/MypageSideBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/mypage/MypageSideBar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/mypage/MypageWalletBox.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/mypage/MypageWalletBox.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/specialAuction/SellerInfoPopup.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/specialAuction/SellerInfoPopup.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/specialAuction/TestApi2.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/specialAuction/TestApi2.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/customHooks/useNotificationWebSocket.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/customHooks/useNotificationWebSocket.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Category.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Category.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/DetailedCategory.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/DetailedCategory.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/DetailedCategory_All.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/DetailedCategory_All.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/DetailedCategory_Antique.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/DetailedCategory_Antique.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/DetailedCategory_Art.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/DetailedCategory_Art.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/DetailedCategory_Book.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/DetailedCategory_Book.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/DetailedCategory_Clothing.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/DetailedCategory_Clothing.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/DetailedCategory_Elec.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/DetailedCategory_Elec.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/DetailedCategory_Hob.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/DetailedCategory_Hob.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/DetailedCategory_Pic.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/DetailedCategory_Pic.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Layout.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Layout.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Mainpage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Mainpage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/SAstreamingSetting.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/SAstreamingSetting.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/SpecialAuction.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/SpecialAuction.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/etc2_find/FindMember.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/find/FindMember.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/etc2_find/ModifyPasswd.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/find/ModifyPasswd.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/etc2_join/Join.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/join/Join.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/etc2_join/JoinThree.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/join/JoinThree.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/etc2_join/JoinToken.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/join/JoinToken.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/etc2_join/JoinTwo.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/join/JoinTwo.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/etc2_login/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/login/Login.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/mypage/Mypage_AuctionInfo.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/mypage/Mypage_AuctionInfo.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/mypage/Mypage_AuctionManagement.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/mypage/Mypage_AuctionManagement.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/mypage/Mypage_UserInfo.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/mypage/Mypage_UserInfo.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/mypage/Mypage_UserInfoModify.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/mypage/Mypage_UserInfoModify.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/mypage/Mypage_Wallet.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/mypage/Mypage_Wallet.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/oauth2test/GoogleLogin.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/oauth/GoogleLogin.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/oauth2test/KakaoLogin.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/oauth/KakaoLogin.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/oauth2test/KakaoLogin.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/oauth/KakaoLogin.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/oauth2test/KakaoLogout.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/oauth/KakaoLogout.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/oauth2test/NaverLogin.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/oauth/NaverLogin.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/oauth2test/userInfoState.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/oauth/userInfoState.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/search/Search.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/search/Search.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/routes/etc2_join/JoinRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/etc2_join/JoinRoutes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/slices/etc2_memberslice/memberSlice.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/find/FindMember.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/find/FindMember.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/find/ModifyPasswd.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/find/ModifyPasswd.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/join/Join.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/join/Join.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/join/JoinThree.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/join/JoinThree.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/join/JoinToken.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/join/JoinToken.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/join/JoinTwo.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/join/JoinTwo.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/login/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/login/Login.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/oauth/GoogleLogin.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/oauth/GoogleLogin.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/oauth/KakaoLogin.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/oauth/KakaoLogin.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/oauth/NaverLogin.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/oauth/NaverLogin.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/payment/WidgetCheckout.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/payment/WidgetSuccess.js" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/slices/member/memberSlice.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/slices/member/memberSlice.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/slices/payment/paymentSlice.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/slices/payment/paymentSlice.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/slices/search/searchSlice.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/slices/search/searchSlice.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/slices/specialAuction/specialAuctionSlice.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/slices/specialAuction/specialAuctionSlice.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/slices/payment/paymentSlice.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/store.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/store.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -154,7 +71,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "main(영우수정)",
     "kotlin-language-version-configured": "true",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -184,6 +101,7 @@
     <MESSAGE value="main 사라진 파일 추가" />
     <MESSAGE value="main 폴더명 통일" />
     <MESSAGE value="main 폴더명 통일(2)" />
-    <option name="LAST_COMMIT_MESSAGE" value="main 폴더명 통일(2)" />
+    <MESSAGE value="main 폴더명 통일(3)" />
+    <option name="LAST_COMMIT_MESSAGE" value="main 폴더명 통일(3)" />
   </component>
 </project>

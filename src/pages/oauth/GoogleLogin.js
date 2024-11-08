@@ -5,7 +5,7 @@ import {useRecoilState} from "recoil";
 import {userInfoState} from './userInfoState';
 import "./KakaoLogin.css"
 import {useDispatch, useSelector} from "react-redux";
-import {googleJwtToken, kakaoJwtToken} from "../../apis/memberapis/memberApis";
+import {googleJwtToken, kakaoJwtToken} from "../../apis/member/memberApis";
 import styled from "styled-components";
 
 const CenteredContainer = styled.div`

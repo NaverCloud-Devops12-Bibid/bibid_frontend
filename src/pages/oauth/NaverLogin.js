@@ -5,7 +5,7 @@ import {useNavigate} from "react-router-dom";
 // import {userInfoState} from './userInfoState';
 import "./KakaoLogin.css"
 import {useDispatch, useSelector} from "react-redux";
-import {kakaoJwtToken, naverJwtToken} from "../../apis/memberapis/memberApis";
+import {kakaoJwtToken, naverJwtToken} from "../../apis/member/memberApis";
 import styled from "styled-components";
 
 const CenteredContainer = styled.div`

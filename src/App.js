@@ -35,9 +35,6 @@ import KakaoLogout from "./pages/oauth/KakaoLogout";
 import GoogleLogin from "./pages/oauth/GoogleLogin";
 import FailPage from "./pages/Fail";
 import TestApi2 from "./components/specialAuction/TestApi2";
-import MemberInitializer from "./context/MemberInitializer";
-import WidgetCheckoutPage from "./pages/payment/WidgetCheckout";
-import WidgetSuccessPage from "./pages/payment/WidgetSuccess";
 import DetailedCategory_Art from "./pages/DetailedCategory_Art";
 
 function App() {
@@ -85,10 +82,6 @@ function App() {
                         <Route path="/mypage/wallet/" element={<Mypage_Wallet />} />
                         <Route path="mypage/auctionmanagement/" element={<Mypage_AuctionManagement/>}/>
                     </Route>
-
-                    {/* Widget Routes */}
-                    <Route path="/widget/checkout" element={<WidgetCheckoutPage />} />
-                    <Route path="/widget/success" element={<WidgetSuccessPage />} />
 
                     {/* Fail Page */}
                     <Route path="/fail" element={<FailPage />} />

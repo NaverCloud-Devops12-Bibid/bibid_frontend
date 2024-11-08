@@ -8,19 +8,25 @@ import axios from 'axios';
 import rightArrowIcon from '../../images/right_arrow_icon.svg';
 import hamburgerIcon from '../../images/hamburger_icon.svg';
 import {useDispatch, useSelector} from "react-redux";
-import {useNavigate} from "react-router-dom";
 import HeaderSearchBar from '../search/HeaderSearchBar'
-import {checkLogin, getAccessToken, getTokenAndType, getType, logout} from "../../apis/memberapis/memberApis";
-import searchLogo from '../../images/search_icon.svg';
 import profileDefault from '../../images/profile_default.jpg';
+import {checkLogin, logout} from "../../apis/member/memberApis";
 
 const Header = () => {
 
+    let clickCate = true;
     const dispatch = useDispatch();
-    const navi = useNavigate();
-
-    const [memberInfo, setMemberInfo] = useState(null);
+    const bucketName = process.env.REACT_APP_BUCKET_NAME;
+    const member = useSelector((state) => state.memberSlice);
+    const accountDto = useSelector((state) => state.memberSlice.accountDto);
     const memberIndex = useSelector((state) => state.memberSlice.memberIndex);
+    const oauthType = useSelector(state => state.memberSlice.oauthType);
+    const checkLoginState = useSelector(state => state.memberSlice.checkLoginState);
+    const [memberInfo, setMemberInfo] = useState(null);
+    const [profileImageDto, setProfileImageDto] = useState(member.profileImageDto);
+    const [boxHeight, setBoxHeight] = useState('auto'); // 초기 높이 설정
+    const [showWalletPopup, setShowWalletPopup] = useState(false); // 지갑 팝업 상태
+    const [token, setToken] = useState(null);
 
     useEffect(() => {
         // API 호출 함수
@@ -40,23 +46,27 @@ const Header = () => {
         }
     }, [memberIndex]);
 
-    const bucketName = process.env.REACT_APP_BUCKET_NAME;
-    const member = useSelector((state) => state.memberSlice);
-    const accountDto = useSelector((state) => state.memberSlice.accountDto);
-
-    const [profileImageDto, setProfileImageDto] = useState(member.profileImageDto);
-
-    const imageSrc = profileImageDto && profileImageDto.filepath && profileImageDto.newfilename
-        ? `https://kr.object.ncloudstorage.com/${bucketName}/${profileImageDto.filepath}${profileImageDto.newfilename}`
-        : '/default_profile.png'; // 기본 이미지 경로 설정
-
     useEffect(() => {
         setProfileImageDto(member.profileImageDto);
     }, [member.profileImageDto]);
 
-    const [boxHeight, setBoxHeight] = useState('auto'); // 초기 높이 설정
-    const [showWalletPopup, setShowWalletPopup] = useState(false); // 지갑 팝업 상태
+    useLayoutEffect(() => {
+        const fetchLoginStatus =  () => {
+            dispatch(checkLogin());
 
+            if (checkLoginState) {
+                setToken(true);
+            } else {
+                setToken(false);
+            }
+        };
+
+        fetchLoginStatus();
+    }, [checkLoginState]);
+
+    const imageSrc = profileImageDto && profileImageDto.filepath && profileImageDto.newfilename
+        ? `https://kr.object.ncloudstorage.com/${bucketName}/${profileImageDto.filepath}${profileImageDto.newfilename}`
+        : '/default_profile.png'; // 기본 이미지 경로 설정
 
     const handleMouseOver = (e) => {
         document.querySelector(".HDnavbarMenuDetailBox").style.display = 'block';
@@ -83,8 +93,6 @@ const Header = () => {
     const handleMouseLeaveWallet = () => {
         setShowWalletPopup(false);
     };
-
-    let clickCate = true;
 
     const handleMouseClick = (e) => {
         if (clickCate) {
@@ -160,26 +168,6 @@ const Header = () => {
       window.location.href = '/category/antique';
       };
 
-    const [token, setToken] = useState(null);
-
-    const oauthType = useSelector(state => state.memberSlice.oauthType);
-    const checkLoginState = useSelector(state => state.memberSlice.checkLoginState);
-    const nickname = useSelector(state => state.memberSlice.nickname);
-
-    useLayoutEffect(() => {
-        const fetchLoginStatus =  () => {
-             dispatch(checkLogin());
-
-            if (checkLoginState) {
-                setToken(true);
-            } else {
-                setToken(false);
-            }
-        };
-
-        fetchLoginStatus();
-    }, [checkLoginState]);
-
     const handleLogout = useCallback(async () => {
 
         try {
@@ -251,31 +239,6 @@ const Header = () => {
                             </div>
                         </div>
                     </div>
-
-                    {/*<div className="HDnavbarSearchbar">*/}
-                    {/*    <input type="text"></input>*/}
-                    {/*</div>*/}
-                    {/* <img
-                        onClick={handleToSearch}
-                        src={searchLogo} // 이미지 주소를 src로 설정
-                        alt="검색" // 대체 텍스트 추가
-                        style={{
-                            display: 'flex',
-                            width: '30px',
-                            height: '30px',
-                            justifyContent: 'center',
-                            alignContent: 'center',
-                            alignItems: 'center',
-                            backgroundRepeat: 'no-repeat',
-                        }}
-                    />
-                    <div style={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center'
-                    }}>
-                        검색
-                    </div> */}
                     <HeaderSearchBar />
                     {
                         token ?
