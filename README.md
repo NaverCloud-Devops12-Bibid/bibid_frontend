@@ -27,7 +27,7 @@ BID(입찰) + VIVID(생생한,강렬한) = BIBID
 
 # 🎨 UI/UX 스타일 가이드라인
 
-![가이드 라인](https://github.com/user-attachments/assets/e2313ff3-0756-412c-88da-801f5679972b)
+![가이드 라인](https://github.com/user-attachments/assets/a2db40ee-6a54-49aa-b194-fa7ee4bb557a)
 
 # 🦾 사용기술 / 개발환경
 
